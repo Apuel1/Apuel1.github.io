@@ -9,7 +9,7 @@
 :root{
   --bg:#07120f; --bg2:#0a1814; --panel:#0e1f1a; --panel2:#122821;
   --line:#1c382f; --line2:#27493d;
-  --txt:#e9f6f0; --muted:#92b3a6; --faint:#5f8175;
+  --txt:#e9f6f0; --muted:#92b3a6; --faint:#74998a;
   --acc:#10b981; --acc2:#0ea5a4; --acc-g:linear-gradient(135deg,#10b981,#0ea5a4);
   --gold:#f5b941;
   --ok:#34d399; --warn:#fbbf24; --bad:#fb7185;
@@ -132,6 +132,7 @@ svg.chart{width:100%;height:auto;display:block;overflow:visible}
 .lb th,.lb td{text-align:left;padding:10px 12px;white-space:nowrap}
 .lb thead th{color:var(--faint);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;font-weight:700;cursor:pointer;user-select:none;border-bottom:1px solid var(--line)}
 .lb thead th:hover{color:var(--txt)}
+.lb thead th:focus-visible{outline:2px solid var(--acc);outline-offset:-2px;color:var(--txt);border-radius:6px}
 .lb thead th .ar{opacity:.4;font-size:.7rem}
 .lb thead th.sorted .ar{opacity:1;color:var(--acc)}
 .lb td.num,.lb th.num{text-align:right;font-variant-numeric:tabular-nums}
@@ -215,21 +216,21 @@ table.deals{width:100%;border-collapse:collapse;font-size:.85rem}
     </div>
     <div class="ctrls">
       <div class="seg" id="period" role="group" aria-label="Período">
-        <button data-p="w" data-i="p_w">Semana</button>
-        <button data-p="m" class="on" data-i="p_m">Mes</button>
-        <button data-p="q" data-i="p_q">Trimestre</button>
+        <button type="button" data-p="w" data-i="p_w">Semana</button>
+        <button type="button" data-p="m" class="on" data-i="p_m">Mes</button>
+        <button type="button" data-p="q" data-i="p_q">Trimestre</button>
       </div>
       <div class="sel" id="teamSel">
         <button type="button" aria-haspopup="true" aria-expanded="false">
-          <svg class="pin"><use href="#i-pin"/></svg>
+          <svg class="pin" aria-hidden="true"><use href="#i-pin"/></svg>
           <span data-team-label>Todos los equipos</span>
-          <svg class="chev"><use href="#i-chev"/></svg>
+          <svg class="chev" aria-hidden="true"><use href="#i-chev"/></svg>
         </button>
         <div class="menu" role="menu"></div>
       </div>
-      <div class="lang" id="lang">
-        <button data-l="es" class="on">ES</button>
-        <button data-l="en">EN</button>
+      <div class="lang" id="lang" role="group" aria-label="Idioma / Language">
+        <button type="button" data-l="es" class="on" aria-label="Español">ES</button>
+        <button type="button" data-l="en" aria-label="English">EN</button>
       </div>
     </div>
   </header>
@@ -296,7 +297,7 @@ var I18N={
       foot:'Demo de dashboard premium · datos simulados · Oracle APEX-ready',
       k_rev:'Ingresos del período',k_tick:'Ticket promedio',k_conv:'Tasa de conversión',k_deals:'Negocios cerrados',
       vs:'vs. período anterior',
-      lb_rep:'Vendedor',lb_deals:'Negocios',lb_rev:'Ingresos',lb_goal:'% meta',
+      lb_rep:'Vendedor',lb_deals:'Negocios',lb_rev:'Ingresos',lb_goal:'% meta',sort_by:'Ordenar por',
       dl_client:'Cliente',dl_amount:'Monto',dl_stage:'Etapa',dl_date:'Fecha',
       st_lead:'Lead',st_qual:'Calificado',st_prop:'Propuesta',st_won:'Ganado',st_lost:'Perdido',
       f_lead:'Leads',f_qual:'Calificados',f_prop:'Propuesta',f_won:'Cerrados',
@@ -313,7 +314,7 @@ var I18N={
       foot:'Premium dashboard demo · simulated data · Oracle APEX-ready',
       k_rev:'Period revenue',k_tick:'Average deal size',k_conv:'Conversion rate',k_deals:'Closed deals',
       vs:'vs. previous period',
-      lb_rep:'Rep',lb_deals:'Deals',lb_rev:'Revenue',lb_goal:'% quota',
+      lb_rep:'Rep',lb_deals:'Deals',lb_rev:'Revenue',lb_goal:'% quota',sort_by:'Sort by',
       dl_client:'Client',dl_amount:'Amount',dl_stage:'Stage',dl_date:'Date',
       st_lead:'Lead',st_qual:'Qualified',st_prop:'Proposal',st_won:'Won',st_lost:'Lost',
       f_lead:'Leads',f_qual:'Qualified',f_prop:'Proposal',f_won:'Closed',
@@ -395,7 +396,7 @@ function renderKpis(){
   ];
   /* sparkline shapes per kpi */
   var spk={
-    k_rev:[.78,.82,.8,.86,.9,.88,.94,1].map(function(x){return x}),
+    k_rev:[.78,.82,.8,.86,.9,.88,.94,1],
     k_tick:[.9,.88,.92,.95,.93,.97,.96,1],
     k_conv:[.7,.74,.72,.8,.83,.86,.9,1],
     k_deals:[.6,.7,.65,.8,.75,.9,.85,1]
@@ -554,7 +555,7 @@ function renderRev(){
   labels.forEach(function(l,i){svg+='<text class="axlbl" x="'+X(i).toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle">'+l+'</text>'});
   /* area + lines */
   svg+='<path d="'+ap(real)+'" fill="url(#rgrad)"/>';
-  svg+='<path class="gline" d="'+lp(goal)+'" stroke="#5f8175" stroke-width="2" stroke-dasharray="5 5" opacity=".9"/>';
+  svg+='<path class="gline" d="'+lp(goal)+'" stroke="#74998a" stroke-width="2" stroke-dasharray="5 5" opacity=".9"/>';
   svg+='<path class="gline" d="'+lp(real)+'" stroke="#10b981"/>';
   real.forEach(function(v,i){svg+='<circle class="dot" cx="'+X(i).toFixed(1)+'" cy="'+Y(v).toFixed(1)+'" r="3" fill="#10b981" data-i="'+i+'"/>'});
   svg+='</svg>';
@@ -562,7 +563,7 @@ function renderRev(){
   box.querySelectorAll('.dot').forEach(function(d){
     d.addEventListener('mouseenter',function(e){
       var i=+d.getAttribute('data-i');
-      showTipMoney(e,labels[i],[['#10b981',t('rev_real'),real[i]],['#5f8175',t('rev_goal'),goal[i]]]);
+      showTipMoney(e,labels[i],[['#10b981',t('rev_real'),real[i]],['#74998a',t('rev_goal'),goal[i]]]);
       d.setAttribute('r','5.5');
     });
     d.addEventListener('mouseleave',function(){hideTip();d.setAttribute('r','3')});
@@ -586,7 +587,11 @@ function renderLb(){
     return (x-y)*lbDir;
   });
   var h='<thead><tr>';
-  cols.forEach(function(c){h+='<th class="'+(c[2]?'num ':'')+(c[0]===lbKey?'sorted':'')+'" data-k="'+c[0]+'">'+t(c[1])+' <span class="ar">'+(c[0]===lbKey?(lbDir<0?'▼':'▲'):'⇅')+'</span></th>'});
+  cols.forEach(function(c){
+    var on=c[0]===lbKey;
+    var aria=on?(lbDir<0?'descending':'ascending'):'none';
+    h+='<th class="'+(c[2]?'num ':'')+(on?'sorted':'')+'" data-k="'+c[0]+'" tabindex="0" role="button" aria-sort="'+aria+'" title="'+t('sort_by')+' '+t(c[1])+'">'+t(c[1])+' <span class="ar" aria-hidden="true">'+(on?(lbDir<0?'▼':'▲'):'⇅')+'</span></th>';
+  });
   h+='</tr></thead><tbody>';
   rows.forEach(function(r,i){
     var rkCls=lbKey==='rev'&&lbDir<0?(i===0?'m1':i===1?'m2':i===2?'m3':''):'';
@@ -613,10 +618,16 @@ function renderLb(){
     setTimeout(function(){bar.style.width=w+'%'},120+i*70);
   });
   tbl.querySelectorAll('th').forEach(function(th){
-    th.addEventListener('click',function(){
+    function doSort(){
       var k=th.getAttribute('data-k');
       if(k===lbKey){lbDir*=-1}else{lbKey=k;lbDir=(k==='n')?1:-1}
       renderLb();
+      var f=document.querySelector('#lb th[data-k="'+lbKey+'"]');
+      if(f)f.focus();
+    }
+    th.addEventListener('click',doSort);
+    th.addEventListener('keydown',function(e){
+      if(e.key==='Enter'||e.key===' '){e.preventDefault();doSort();}
     });
   });
 }
@@ -721,6 +732,7 @@ document.getElementById('period').addEventListener('click',function(e){
   var sel=document.getElementById('teamSel');
   var btn=sel.querySelector('button');
   var menu=sel.querySelector('.menu');
+  function closeMenu(){sel.classList.remove('open');menu.classList.remove('on');btn.setAttribute('aria-expanded','false');}
   btn.addEventListener('click',function(ev){
     ev.stopPropagation();
     var open=sel.classList.toggle('open');
@@ -730,10 +742,13 @@ document.getElementById('period').addEventListener('click',function(e){
   menu.addEventListener('click',function(ev){
     var b=ev.target.closest('button');if(!b)return;
     TEAM=b.getAttribute('data-id');
-    sel.classList.remove('open');menu.classList.remove('on');btn.setAttribute('aria-expanded','false');
+    closeMenu();
     renderAll();
   });
-  document.addEventListener('click',function(){if(sel.classList.contains('open')){sel.classList.remove('open');menu.classList.remove('on');btn.setAttribute('aria-expanded','false')}});
+  document.addEventListener('click',function(){if(sel.classList.contains('open'))closeMenu();});
+  document.addEventListener('keydown',function(ev){
+    if(ev.key==='Escape'&&sel.classList.contains('open')){closeMenu();btn.focus();}
+  });
   window.addEventListener('resize',function(){if(sel.classList.contains('open'))positionMenu()});
   window.addEventListener('scroll',function(){if(sel.classList.contains('open'))positionMenu()},true);
 })();

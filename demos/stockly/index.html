@@ -9,7 +9,7 @@
 :root{
   --bg:#0b1020; --bg2:#0f152b; --panel:#141b33; --panel2:#172040;
   --line:#243056; --line2:#2e3a66;
-  --txt:#eaf0ff; --muted:#9aa6c8; --faint:#6b769c;
+  --txt:#eaf0ff; --muted:#9aa6c8; --faint:#7a85ad;
   --acc:#6366f1; --acc2:#8b5cf6; --acc-g:linear-gradient(135deg,#6366f1,#8b5cf6);
   --ok:#34d399; --warn:#fbbf24; --bad:#f87171;
   --r:16px; --r2:12px; --sh:0 10px 30px -12px rgba(0,0,0,.55);
@@ -104,6 +104,7 @@ table{width:100%;border-collapse:collapse;font-size:.85rem}
 th,td{text-align:left;padding:11px 14px;white-space:nowrap}
 thead th{color:var(--faint);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;font-weight:700;cursor:pointer;user-select:none;border-bottom:1px solid var(--line)}
 thead th:hover{color:var(--txt)}
+thead th:focus-visible{outline:2px solid var(--acc2);outline-offset:-2px;color:var(--txt);border-radius:6px}
 thead th .ar{opacity:.4;font-size:.7rem}
 thead th.sorted .ar{opacity:1;color:var(--acc2)}
 td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
@@ -163,14 +164,14 @@ tbody tr:last-child{border-bottom:0}
     </div>
     <div class="ctrls">
       <div class="seg" id="period" role="group" aria-label="Período">
-        <button data-p="d" data-i="p_d">Hoy</button>
-        <button data-p="w" data-i="p_w">Semana</button>
-        <button data-p="m" class="on" data-i="p_m">Mes</button>
+        <button type="button" data-p="d" data-i="p_d">Hoy</button>
+        <button type="button" data-p="w" data-i="p_w">Semana</button>
+        <button type="button" data-p="m" class="on" data-i="p_m">Mes</button>
       </div>
-      <button class="sel" type="button" id="whSel"><svg><use href="#i-pin"/></svg><span data-i="wh_all">Todos los depósitos</span></button>
-      <div class="lang" id="lang">
-        <button data-l="es" class="on">ES</button>
-        <button data-l="en">EN</button>
+      <button class="sel" type="button" id="whSel" aria-label="Depósito: todos"><svg aria-hidden="true"><use href="#i-pin"/></svg><span data-i="wh_all">Todos los depósitos</span></button>
+      <div class="lang" id="lang" role="group" aria-label="Idioma / Language">
+        <button type="button" data-l="es" class="on" aria-label="Español">ES</button>
+        <button type="button" data-l="en" aria-label="English">EN</button>
       </div>
     </div>
   </header>
@@ -225,6 +226,7 @@ var I18N={
       k_val:'Valor del inventario',k_low:'Ítems bajo reorden',k_rot:'Rotación de stock',k_mov:'Movimientos netos',
       vs:'vs. mes anterior',units:'u.',
       th_prod:'Producto',th_cat:'Categoría',th_stock:'Stock',th_re:'Reorden',th_st:'Estado',th_val:'Valor',
+      sort_by:'Ordenar por',
       st_ok:'OK',st_low:'Bajo',st_out:'Quiebre',
       a_out:'sin stock',a_low:'bajo el punto de reorden',a_over:'sobrestock vs. demanda'},
   en:{brandsub:'Inventory Intelligence',p_d:'Today',p_w:'Week',p_m:'Month',wh_all:'All warehouses',
@@ -234,6 +236,7 @@ var I18N={
       k_val:'Inventory value',k_low:'Items below reorder',k_rot:'Stock turnover',k_mov:'Net movements',
       vs:'vs. last month',units:'u.',
       th_prod:'Product',th_cat:'Category',th_stock:'Stock',th_re:'Reorder',th_st:'Status',th_val:'Value',
+      sort_by:'Sort by',
       st_ok:'OK',st_low:'Low',st_out:'Out',
       a_out:'out of stock',a_low:'below reorder point',a_over:'overstock vs. demand'}
 };
@@ -289,7 +292,7 @@ function renderKpis(){
     var goodUp=d.good==='up', isGood=goodUp?diff>=0:diff<=0;
     var cls=diff===0?'flat':(isGood?'up':'down');
     var arrow=diff>=0?'i-up':'i-down';
-    var spk=(d.k==='k_low')?[9,11,8,12,10,13,11,14]:(d.k==='k_mov'?FLOW_IN.slice(-8):[d.prev*.94,d.prev*.97,d.prev,d.prev*1.02,d.val*.98,d.val*.99,d.val*1.0,d.val].map(function(x){return x}));
+    var spk=(d.k==='k_low')?[9,11,8,12,10,13,11,14]:(d.k==='k_mov'?FLOW_IN.slice(-8):[d.prev*.94,d.prev*.97,d.prev,d.prev*1.02,d.val*.98,d.val*.99,d.val,d.val]);
     var col=cls==='up'?'#34d399':cls==='down'?'#f87171':'#9aa6c8';
     var c=el('article','card kpi rise');c.style.setProperty('--d',(i*.05)+'s');
     c.innerHTML=
@@ -360,7 +363,11 @@ function renderTable(){
     return (x-y)*sortDir;
   });
   var h='<thead><tr>';
-  cols.forEach(function(c){h+='<th class="'+(c[2]?'num ':'')+(c[0]===sortKey?'sorted':'')+'" data-k="'+c[0]+'">'+t(c[1])+' <span class="ar">'+(c[0]===sortKey?(sortDir<0?'▼':'▲'):'⇅')+'</span></th>'});
+  cols.forEach(function(c){
+    var on=c[0]===sortKey;
+    var aria=on?(sortDir<0?'descending':'ascending'):'none';
+    h+='<th class="'+(c[2]?'num ':'')+(on?'sorted':'')+'" data-k="'+c[0]+'" tabindex="0" role="button" aria-sort="'+aria+'" title="'+t('sort_by')+' '+t(c[1])+'">'+t(c[1])+' <span class="ar" aria-hidden="true">'+(on?(sortDir<0?'▼':'▲'):'⇅')+'</span></th>';
+  });
   h+='</tr></thead><tbody>';
   rows.forEach(function(r){
     var chip=r.st==='out'?'out':r.st==='low'?'low':'ok';
@@ -373,10 +380,16 @@ function renderTable(){
   h+='</tbody>';
   tbl.innerHTML=h;
   tbl.querySelectorAll('th').forEach(function(th){
-    th.addEventListener('click',function(){
+    function doSort(){
       var k=th.getAttribute('data-k');
       if(k===sortKey){sortDir*=-1}else{sortKey=k;sortDir=(k==='n'||k==='c')?1:-1}
       renderTable();
+      var f=document.querySelector('#tbl th[data-k="'+sortKey+'"]');
+      if(f)f.focus();
+    }
+    th.addEventListener('click',doSort);
+    th.addEventListener('keydown',function(e){
+      if(e.key==='Enter'||e.key===' '){e.preventDefault();doSort();}
     });
   });
 }
