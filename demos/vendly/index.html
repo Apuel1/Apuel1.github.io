@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vendly — Sales Dashboard (demo)</title>
+<meta name="description" content="Demo de dashboard premium de ventas y comercial. Oracle APEX-ready. Por Manuel Albar Diaz.">
+<style>
+:root{
+  --bg:#07120f; --bg2:#0a1814; --panel:#0e1f1a; --panel2:#122821;
+  --line:#1c382f; --line2:#27493d;
+  --txt:#e9f6f0; --muted:#92b3a6; --faint:#5f8175;
+  --acc:#10b981; --acc2:#0ea5a4; --acc-g:linear-gradient(135deg,#10b981,#0ea5a4);
+  --gold:#f5b941;
+  --ok:#34d399; --warn:#fbbf24; --bad:#fb7185;
+  --r:16px; --r2:12px; --sh:0 10px 30px -12px rgba(0,0,0,.6);
+  --ff:'Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--ff); color:var(--txt);
+  background:
+    radial-gradient(1200px 600px at 88% -12%, rgba(16,185,129,.16), transparent 60%),
+    radial-gradient(900px 520px at -6% 8%, rgba(14,165,164,.13), transparent 55%),
+    var(--bg);
+  min-height:100vh; padding:clamp(14px,3vw,30px); line-height:1.45;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1260px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(14px,2.4vw,22px)}
+
+/* ---------- TOPBAR ---------- */
+.top{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:11px;margin-right:auto}
+.logo{width:38px;height:38px;border-radius:11px 11px 11px 4px;background:var(--acc-g);display:grid;place-items:center;box-shadow:0 6px 18px -6px rgba(16,185,129,.7)}
+.logo svg{width:21px;height:21px}
+.brand b{font-size:1.28rem;letter-spacing:-.02em;font-weight:700}
+.brand b span{background:var(--acc-g);-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand small{display:block;color:var(--faint);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;margin-top:-2px}
+.ctrls{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.seg{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px}
+.seg button{appearance:none;border:0;background:transparent;color:var(--muted);font:inherit;font-size:.82rem;font-weight:600;padding:6px 12px;border-radius:7px;cursor:pointer;transition:.18s}
+.seg button:hover{color:var(--txt)}
+.seg button.on{background:var(--acc-g);color:#04130e;box-shadow:0 4px 12px -4px rgba(16,185,129,.6)}
+.sel{position:relative}
+.sel>button{display:flex;align-items:center;gap:7px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;color:var(--muted);font:inherit;font-size:.82rem;font-weight:600;cursor:pointer;transition:.18s}
+.sel>button:hover{border-color:var(--line2);color:var(--txt)}
+.sel>button .chev{width:13px;height:13px;opacity:.7;transition:transform .2s}
+.sel>button .pin{width:15px;height:15px;opacity:.8;color:var(--acc)}
+.sel.open>button .chev{transform:rotate(180deg)}
+.menu{position:fixed;z-index:60;min-width:180px;background:var(--panel2);border:1px solid var(--line2);border-radius:12px;padding:5px;box-shadow:0 18px 40px -12px rgba(0,0,0,.75);opacity:0;transform:translateY(-6px);pointer-events:none;transition:.16s}
+.menu.on{opacity:1;transform:none;pointer-events:auto}
+.menu button{display:flex;align-items:center;gap:8px;width:100%;text-align:left;appearance:none;border:0;background:transparent;color:var(--muted);font:inherit;font-size:.82rem;font-weight:600;padding:8px 10px;border-radius:8px;cursor:pointer;transition:.13s}
+.menu button:hover{background:rgba(16,185,129,.1);color:var(--txt)}
+.menu button.on{color:var(--acc)}
+.menu button .ck{margin-left:auto;width:14px;height:14px;opacity:0}
+.menu button.on .ck{opacity:1}
+.lang{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:3px}
+.lang button{appearance:none;border:0;background:transparent;color:var(--muted);font:inherit;font-size:.78rem;font-weight:700;padding:6px 11px;border-radius:7px;cursor:pointer;transition:.18s}
+.lang button.on{background:var(--acc-g);color:#04130e}
+
+/* ---------- CARD BASE ---------- */
+.card{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);position:relative;overflow:hidden;contain:layout}
+.card .hd{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 18px 0}
+.card .hd h2{font-size:.95rem;font-weight:700;letter-spacing:-.01em}
+.card .hd .sub{color:var(--faint);font-size:.74rem}
+
+/* ---------- KPIs ---------- */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(212px,1fr));gap:clamp(12px,1.8vw,18px)}
+.kpi{padding:18px 18px 14px}
+.kpi::before{content:"";position:absolute;inset:0 auto auto 0;width:100%;height:3px;background:var(--acc-g);opacity:.9}
+.kpi .lbl{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.78rem;font-weight:600}
+.kpi .lbl .ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:rgba(16,185,129,.14);color:#7be3c4}
+.kpi .lbl .ic svg{width:16px;height:16px}
+.kpi .val{font-size:clamp(1.5rem,3vw,1.95rem);font-weight:800;letter-spacing:-.03em;margin:11px 0 2px;font-variant-numeric:tabular-nums}
+.kpi .ft{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.delta{display:inline-flex;align-items:center;gap:3px;font-size:.76rem;font-weight:700;padding:2px 7px;border-radius:20px;font-variant-numeric:tabular-nums}
+.delta svg{width:12px;height:12px}
+.delta.up{color:var(--ok);background:rgba(52,211,153,.12)}
+.delta.down{color:var(--bad);background:rgba(251,113,133,.12)}
+.delta.flat{color:var(--muted);background:rgba(146,179,166,.1)}
+.spark{width:84px;height:30px;flex:none}
+
+/* ---------- GRID ---------- */
+.row{display:grid;gap:clamp(12px,1.8vw,18px)}
+.row.mid{grid-template-columns:1.25fr 1fr}
+.row.bottom{grid-template-columns:1fr 1.45fr}
+@media(max-width:920px){.row.mid,.row.bottom{grid-template-columns:1fr}}
+
+/* ---------- FUNNEL ---------- */
+.funnel{padding:8px 14px 18px;display:flex;flex-direction:column;gap:0}
+svg.funsvg{width:100%;height:auto;display:block;overflow:visible}
+.fun-stage{cursor:default}
+.fun-lbl{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:9px 4px}
+.fun-lbl .nm{display:flex;align-items:center;gap:9px;font-size:.86rem;font-weight:600}
+.fun-lbl .nm i{width:11px;height:11px;border-radius:3px;display:inline-block;flex:none}
+.fun-lbl .vv{font-variant-numeric:tabular-nums;font-weight:700;font-size:.9rem}
+.fun-lbl .pc{color:var(--muted);font-size:.74rem;font-weight:600;font-variant-numeric:tabular-nums;margin-left:8px}
+.fun-row{display:grid;grid-template-columns:1fr;gap:0;border-bottom:1px solid rgba(255,255,255,.04)}
+.fun-row:last-child{border-bottom:0}
+.fbar{height:34px;border-radius:8px;position:relative;overflow:hidden;background:rgba(255,255,255,.03)}
+.fbar .ffill{position:absolute;inset:0 auto 0 0;width:0;border-radius:8px;transition:width 1.1s cubic-bezier(.22,1,.36,1)}
+.fdrop{text-align:center;color:var(--faint);font-size:.7rem;font-weight:600;padding:3px 0;font-variant-numeric:tabular-nums}
+.fdrop b{color:var(--bad)}
+
+/* ---------- GAUGE ---------- */
+.gauge{padding:6px 16px 20px;display:flex;flex-direction:column;align-items:center;gap:2px}
+svg.gsvg{width:100%;max-width:300px;height:auto;display:block;overflow:visible}
+.garc{fill:none;stroke-linecap:round}
+.gnum{text-align:center;margin-top:-46px}
+.gnum b{display:block;font-size:clamp(2rem,6vw,2.7rem);font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums;background:var(--acc-g);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+.gnum small{color:var(--muted);font-size:.76rem;font-weight:600}
+.gmeta{display:flex;justify-content:space-between;width:100%;max-width:300px;margin-top:8px;gap:10px}
+.gmeta div{flex:1;text-align:center;background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:10px;padding:9px 6px}
+.gmeta .gl{display:block;color:var(--faint);font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:3px}
+.gmeta .gv{font-weight:700;font-size:.92rem;font-variant-numeric:tabular-nums}
+
+/* ---------- LINE CHART ---------- */
+.chartbox{padding:12px 8px 8px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;padding:0 12px 4px}
+.legend span{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-size:.78rem;font-weight:600}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.legend i.dash{width:14px;height:0;border-top:2px dashed var(--faint);border-radius:0}
+svg.chart{width:100%;height:auto;display:block;overflow:visible}
+.gline{fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.dot{cursor:pointer;transition:r .15s}
+.axlbl{fill:var(--faint);font-size:10px;font-weight:600}
+
+/* ---------- LEADERBOARD ---------- */
+.lb-wrap{padding:4px 6px 6px;overflow-x:auto}
+.lb{width:100%;border-collapse:collapse;font-size:.85rem}
+.lb th,.lb td{text-align:left;padding:10px 12px;white-space:nowrap}
+.lb thead th{color:var(--faint);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;font-weight:700;cursor:pointer;user-select:none;border-bottom:1px solid var(--line)}
+.lb thead th:hover{color:var(--txt)}
+.lb thead th .ar{opacity:.4;font-size:.7rem}
+.lb thead th.sorted .ar{opacity:1;color:var(--acc)}
+.lb td.num,.lb th.num{text-align:right;font-variant-numeric:tabular-nums}
+.lb tbody tr{border-bottom:1px solid rgba(255,255,255,.04);transition:background .15s}
+.lb tbody tr:hover{background:rgba(16,185,129,.06)}
+.lb tbody tr:last-child{border-bottom:0}
+.rep{display:flex;align-items:center;gap:10px}
+.rk{width:22px;height:22px;border-radius:7px;flex:none;display:grid;place-items:center;font-size:.74rem;font-weight:800;background:rgba(255,255,255,.05);color:var(--muted)}
+.rk.m1{background:linear-gradient(135deg,#f5b941,#d99517);color:#3a2600}
+.rk.m2{background:linear-gradient(135deg,#cdd6e0,#9aa6b5);color:#2a3038}
+.rk.m3{background:linear-gradient(135deg,#d99764,#b06a3a);color:#34190a}
+.av{width:30px;height:30px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:.74rem;font-weight:700;color:#04130e}
+.rep .nm{font-weight:600}
+.goalcell{display:flex;align-items:center;gap:9px;justify-content:flex-end}
+.gtrk{width:74px;height:7px;border-radius:5px;background:rgba(255,255,255,.06);overflow:hidden;flex:none}
+.gtrk i{display:block;height:100%;border-radius:5px;width:0;transition:width .9s cubic-bezier(.22,1,.36,1)}
+.gpct{min-width:42px;text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.gpct.over{color:var(--ok)}
+.gpct.under{color:var(--warn)}
+
+/* ---------- DEALS TABLE ---------- */
+.tbl-wrap{padding:4px 6px 6px;overflow-x:auto}
+table.deals{width:100%;border-collapse:collapse;font-size:.85rem}
+.deals th,.deals td{text-align:left;padding:11px 14px;white-space:nowrap}
+.deals thead th{color:var(--faint);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;font-weight:700;border-bottom:1px solid var(--line)}
+.deals td.num,.deals th.num{text-align:right;font-variant-numeric:tabular-nums}
+.deals tbody tr{border-bottom:1px solid rgba(255,255,255,.04);transition:background .15s}
+.deals tbody tr:hover{background:rgba(16,185,129,.06)}
+.deals tbody tr:last-child{border-bottom:0}
+.client{font-weight:600}
+.client small{display:block;color:var(--faint);font-size:.72rem;font-weight:500;margin-top:1px}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:.73rem;font-weight:700;padding:3px 9px;border-radius:20px}
+.chip::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.chip.s0{color:#7dd3fc;background:rgba(125,211,252,.1)}
+.chip.s1{color:#c4b5fd;background:rgba(196,181,253,.1)}
+.chip.s2{color:var(--warn);background:rgba(251,191,36,.1)}
+.chip.s3{color:var(--ok);background:rgba(52,211,153,.1)}
+.chip.s4{color:var(--bad);background:rgba(251,113,133,.1)}
+.dt{color:var(--muted);font-size:.8rem}
+
+/* ---------- TOOLTIP ---------- */
+.tip{position:fixed;z-index:80;background:#06100d;border:1px solid var(--line2);border-radius:10px;padding:8px 11px;font-size:.78rem;box-shadow:0 12px 30px -8px rgba(0,0,0,.75);pointer-events:none;opacity:0;transform:translateY(4px);transition:.13s;white-space:nowrap}
+.tip.on{opacity:1;transform:translateY(0)}
+.tip .tt{color:var(--faint);font-size:.7rem;margin-bottom:3px}
+.tip .tr{display:flex;align-items:center;gap:7px;font-weight:600}
+.tip .tr i{width:8px;height:8px;border-radius:2px}
+
+.foot{text-align:center;color:var(--faint);font-size:.76rem;padding:6px 0 2px}
+.foot a{color:var(--acc);text-decoration:none}
+.foot a:hover{text-decoration:underline}
+
+/* ---------- ANIM ---------- */
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.rise{animation:rise .6s cubic-bezier(.22,1,.36,1) both;animation-delay:var(--d,0s)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<!-- icon sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+<symbol id="i-cash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 9v6M18 9v6"/></symbol>
+<symbol id="i-ticket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2 2 2 0 0 0 0 4 2 2 0 0 1-2 2H5a2 2 0 0 1-2-2 2 2 0 0 0 0-4z"/><path d="M9 7v10"/></symbol>
+<symbol id="i-conv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18l-7 8v6l-4 2v-8z"/></symbol>
+<symbol id="i-deal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></symbol>
+<symbol id="i-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 15 6-6 6 6"/></symbol>
+<symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></symbol>
+<symbol id="i-ck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+</defs>
+</svg>
+
+<div class="wrap">
+
+  <!-- TOPBAR -->
+  <header class="top rise">
+    <div class="brand">
+      <span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#04130e" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 3 8-9"/><path d="M16 6h5v5"/></svg></span>
+      <div><b>Vend<span>ly</span></b><small data-i="brandsub">Sales Intelligence</small></div>
+    </div>
+    <div class="ctrls">
+      <div class="seg" id="period" role="group" aria-label="Período">
+        <button data-p="w" data-i="p_w">Semana</button>
+        <button data-p="m" class="on" data-i="p_m">Mes</button>
+        <button data-p="q" data-i="p_q">Trimestre</button>
+      </div>
+      <div class="sel" id="teamSel">
+        <button type="button" aria-haspopup="true" aria-expanded="false">
+          <svg class="pin"><use href="#i-pin"/></svg>
+          <span data-team-label>Todos los equipos</span>
+          <svg class="chev"><use href="#i-chev"/></svg>
+        </button>
+        <div class="menu" role="menu"></div>
+      </div>
+      <div class="lang" id="lang">
+        <button data-l="es" class="on">ES</button>
+        <button data-l="en">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- KPIs -->
+  <section class="kpis" id="kpis" aria-label="Indicadores"></section>
+
+  <!-- FUNNEL + GAUGE -->
+  <section class="row mid">
+    <article class="card rise" style="--d:.05s">
+      <div class="hd"><h2 data-i="fun_t">Embudo de ventas</h2><span class="sub" data-i="fun_s">conversión por etapa</span></div>
+      <div class="funnel" id="funnel"></div>
+    </article>
+    <article class="card rise" style="--d:.1s">
+      <div class="hd"><h2 data-i="ga_t">Cumplimiento de meta</h2><span class="sub" data-i="ga_s">mes actual</span></div>
+      <div class="gauge" id="gauge"></div>
+    </article>
+  </section>
+
+  <!-- REVENUE LINE -->
+  <section class="row">
+    <article class="card rise" style="--d:.15s">
+      <div class="hd"><h2 data-i="rev_t">Evolución de ingresos</h2><span class="sub" data-i="rev_s">real vs. objetivo</span></div>
+      <div class="legend">
+        <span><i style="background:#10b981"></i><b data-i="rev_real">Ingresos reales</b></span>
+        <span><i class="dash"></i><b data-i="rev_goal">Objetivo</b></span>
+      </div>
+      <div class="chartbox" id="revchart"></div>
+    </article>
+  </section>
+
+  <!-- LEADERBOARD + DEALS -->
+  <section class="row bottom">
+    <article class="card rise" style="--d:.2s">
+      <div class="hd"><h2 data-i="lb_t">Ranking de vendedores</h2><span class="sub" data-i="lb_s">clic para ordenar</span></div>
+      <div class="lb-wrap"><table class="lb" id="lb"></table></div>
+    </article>
+    <article class="card rise" style="--d:.25s">
+      <div class="hd"><h2 data-i="dl_t">Negocios recientes</h2><span class="sub" data-i="dl_s">últimos cerrados / activos</span></div>
+      <div class="tbl-wrap"><table class="deals" id="deals"></table></div>
+    </article>
+  </section>
+
+  <p class="foot rise" style="--d:.3s">
+    <span data-i="foot">Demo de dashboard premium · datos simulados · Oracle APEX-ready</span> ·
+    <a href="https://apuel1.github.io/" target="_blank" rel="noopener">Manuel Albar Diaz</a>
+  </p>
+</div>
+
+<div class="tip" id="tip"></div>
+
+<script>
+'use strict';
+/* ===== i18n ===== */
+var I18N={
+  es:{brandsub:'Sales Intelligence',
+      p_w:'Semana',p_m:'Mes',p_q:'Trimestre',
+      team_all:'Todos los equipos',
+      fun_t:'Embudo de ventas',fun_s:'conversión por etapa',
+      ga_t:'Cumplimiento de meta',ga_s:'mes actual',
+      rev_t:'Evolución de ingresos',rev_s:'real vs. objetivo',rev_real:'Ingresos reales',rev_goal:'Objetivo',
+      lb_t:'Ranking de vendedores',lb_s:'clic para ordenar',
+      dl_t:'Negocios recientes',dl_s:'últimos cerrados / activos',
+      foot:'Demo de dashboard premium · datos simulados · Oracle APEX-ready',
+      k_rev:'Ingresos del período',k_tick:'Ticket promedio',k_conv:'Tasa de conversión',k_deals:'Negocios cerrados',
+      vs:'vs. período anterior',
+      lb_rep:'Vendedor',lb_deals:'Negocios',lb_rev:'Ingresos',lb_goal:'% meta',
+      dl_client:'Cliente',dl_amount:'Monto',dl_stage:'Etapa',dl_date:'Fecha',
+      st_lead:'Lead',st_qual:'Calificado',st_prop:'Propuesta',st_won:'Ganado',st_lost:'Perdido',
+      f_lead:'Leads',f_qual:'Calificados',f_prop:'Propuesta',f_won:'Cerrados',
+      drop:'caída',oflead:'de leads',goalof:'Meta',achieved:'Logrado',gap:'Faltante',
+      day:'Día',week_w:'Sem.',mon:'Mes'},
+  en:{brandsub:'Sales Intelligence',
+      p_w:'Week',p_m:'Month',p_q:'Quarter',
+      team_all:'All teams',
+      fun_t:'Sales funnel',fun_s:'conversion by stage',
+      ga_t:'Quota attainment',ga_s:'current month',
+      rev_t:'Revenue trend',rev_s:'actual vs. target',rev_real:'Actual revenue',rev_goal:'Target',
+      lb_t:'Sales leaderboard',lb_s:'click to sort',
+      dl_t:'Recent deals',dl_s:'latest closed / active',
+      foot:'Premium dashboard demo · simulated data · Oracle APEX-ready',
+      k_rev:'Period revenue',k_tick:'Average deal size',k_conv:'Conversion rate',k_deals:'Closed deals',
+      vs:'vs. previous period',
+      lb_rep:'Rep',lb_deals:'Deals',lb_rev:'Revenue',lb_goal:'% quota',
+      dl_client:'Client',dl_amount:'Amount',dl_stage:'Stage',dl_date:'Date',
+      st_lead:'Lead',st_qual:'Qualified',st_prop:'Proposal',st_won:'Won',st_lost:'Lost',
+      f_lead:'Leads',f_qual:'Qualified',f_prop:'Proposal',f_won:'Closed',
+      drop:'drop',oflead:'of leads',goalof:'Quota',achieved:'Achieved',gap:'Gap',
+      day:'Day',week_w:'Wk.',mon:'Month'}
+};
+var LANG='es';
+function t(k){return (I18N[LANG][k]!=null?I18N[LANG][k]:k)}
+function locale(){return LANG==='es'?'es-CO':'en-US'}
+function money(v){return '$'+new Intl.NumberFormat(locale()).format(Math.round(v))}
+function moneyM(v){return '$'+new Intl.NumberFormat(locale(),{minimumFractionDigits:1,maximumFractionDigits:1}).format(v/1e6)+'M'}
+function moneyK(v){return '$'+new Intl.NumberFormat(locale(),{maximumFractionDigits:0}).format(v/1e3)+'K'}
+function num(v){return new Intl.NumberFormat(locale()).format(v)}
+function pct1(v){return new Intl.NumberFormat(locale(),{minimumFractionDigits:1,maximumFractionDigits:1}).format(v).replace('.',LANG==='es'?',':'.')+'%'}
+
+/* ===== data (simulada) ===== */
+var TEAMS=[
+  {id:'all',es:'Todos los equipos',en:'All teams',mult:1},
+  {id:'and',es:'Región Andina',en:'Andean region',mult:.42},
+  {id:'car',es:'Región Caribe',en:'Caribbean region',mult:.31},
+  {id:'pac',es:'Región Pacífico',en:'Pacific region',mult:.27}
+];
+var TEAM='all';
+function tm(){for(var i=0;i<TEAMS.length;i++){if(TEAMS[i].id===TEAM)return TEAMS[i]}return TEAMS[0]}
+
+/* base figures (team "all", month); escalan por multiplicador de equipo */
+var BASE={
+  rev:486300000, revPrev:441800000,
+  ticket:18700000, ticketPrev:17900000,
+  conv:23.4, convPrev:21.1,
+  deals:26, dealsPrev:24,
+  funnel:[ {k:'f_lead',v:340,c:'#0ea5a4'},{k:'f_qual',v:186,c:'#14b8a6'},{k:'f_prop',v:74,c:'#10b981'},{k:'f_won',v:26,c:'#34d399'} ],
+  goal:{target:520000000, achieved:486300000},
+  /* serie de ingresos por semana (4) + objetivo */
+  revSeriesReal:[101000000,118000000,132000000,135300000],
+  revSeriesGoal:[120000000,125000000,130000000,145000000],
+  reps:[
+    {n:'Valentina Ríos',deals:9,rev:142000000,goal:118},
+    {n:'Mateo Guzmán',deals:7,rev:121500000,goal:104},
+    {n:'Camila Ortega',deals:6,rev:98700000,goal:91},
+    {n:'Sebastián Lara',deals:5,rev:71200000,goal:78},
+    {n:'Daniela Pardo',deals:4,rev:53900000,goal:62}
+  ],
+  deals_recent:[
+    {cl:'AgroValle S.A.S.',es:'Distribución',en:'Distribution',amt:34200000,st:3,d:'2026-06-13'},
+    {cl:'Lácteos del Norte',es:'Manufactura',en:'Manufacturing',amt:21800000,st:2,d:'2026-06-13'},
+    {cl:'TecnoCampo Ltda.',es:'Agrotech',en:'Agritech',amt:48900000,st:1,d:'2026-06-12'},
+    {cl:'Hacienda La Esperanza',es:'Ganadería',en:'Livestock',amt:15600000,st:3,d:'2026-06-12'},
+    {cl:'Cafés de Origen',es:'Exportación',en:'Export',amt:27300000,st:0,d:'2026-06-11'},
+    {cl:'FrutiCaribe S.A.',es:'Distribución',en:'Distribution',amt:9400000,st:4,d:'2026-06-11'},
+    {cl:'BioInsumos Andinos',es:'Insumos',en:'Supplies',amt:38500000,st:3,d:'2026-06-10'},
+    {cl:'Molinos del Sur',es:'Manufactura',en:'Manufacturing',amt:18200000,st:2,d:'2026-06-10'}
+  ]
+};
+var STAGE_CLS=['s0','s1','s2','s3','s4'];
+var STAGE_KEY=['st_lead','st_qual','st_prop','st_won','st_lost'];
+
+/* avatar palette (deterministic, brand-ish) */
+var AV=['#10b981','#0ea5a4','#22c55e','#14b8a6','#5eead4'];
+function initials(name){var p=name.split(' ');return ((p[0]||'')[0]||'')+((p[1]||'')[0]||'')}
+
+/* ===== helpers ===== */
+function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e}
+function icon(id){return '<svg><use href="#'+id+'"/></svg>'}
+function sparkPath(arr,w,h){
+  var mn=Math.min.apply(null,arr),mx=Math.max.apply(null,arr),rg=(mx-mn)||1;
+  return arr.map(function(v,i){return (i?'L':'M')+(i/(arr.length-1)*w).toFixed(1)+' '+(h-(v-mn)/rg*h).toFixed(1)}).join(' ');
+}
+
+/* ===== render KPIs ===== */
+function renderKpis(){
+  var box=document.getElementById('kpis');box.innerHTML='';
+  var m=tm().mult;
+  var k=[
+    {key:'k_rev', ic:'i-cash',   val:BASE.rev*m,     prev:BASE.revPrev*m,     fmt:moneyM, good:'up'},
+    {key:'k_tick',ic:'i-ticket', val:BASE.ticket,    prev:BASE.ticketPrev,    fmt:moneyM, good:'up'},
+    {key:'k_conv',ic:'i-conv',   val:BASE.conv,      prev:BASE.convPrev,      fmt:function(v){return pct1(v)}, good:'up'},
+    {key:'k_deals',ic:'i-deal',  val:Math.round(BASE.deals*m), prev:Math.round(BASE.dealsPrev*m), fmt:num, good:'up'}
+  ];
+  /* sparkline shapes per kpi */
+  var spk={
+    k_rev:[.78,.82,.8,.86,.9,.88,.94,1].map(function(x){return x}),
+    k_tick:[.9,.88,.92,.95,.93,.97,.96,1],
+    k_conv:[.7,.74,.72,.8,.83,.86,.9,1],
+    k_deals:[.6,.7,.65,.8,.75,.9,.85,1]
+  };
+  k.forEach(function(d,i){
+    var diff=d.val-d.prev, pctv=d.prev?((diff/d.prev)*100):0;
+    var goodUp=d.good==='up', isGood=goodUp?diff>=0:diff<=0;
+    var cls=diff===0?'flat':(isGood?'up':'down');
+    var arrow=diff>=0?'i-up':'i-down';
+    var col=cls==='up'?'#34d399':cls==='down'?'#fb7185':'#92b3a6';
+    var c=el('article','card kpi rise');c.style.setProperty('--d',(i*.05)+'s');
+    c.innerHTML=
+      '<div class="lbl"><span class="ic">'+icon(d.ic)+'</span>'+t(d.key)+'</div>'+
+      '<div class="val">'+d.fmt(d.val)+'</div>'+
+      '<div class="ft">'+
+        '<span class="delta '+cls+'">'+icon(arrow)+Math.abs(pctv).toFixed(1).replace('.',LANG==='es'?',':'.')+'%</span>'+
+        '<svg class="spark" viewBox="0 0 84 30" preserveAspectRatio="none"><path d="'+sparkPath(spk[d.key],84,28)+'" fill="none" stroke="'+col+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/></svg>'+
+      '</div>';
+    box.appendChild(c);
+  });
+}
+
+/* ===== render funnel ===== */
+function renderFunnel(){
+  var box=document.getElementById('funnel');box.innerHTML='';
+  var m=tm().mult;
+  var stages=BASE.funnel.map(function(s){return {k:s.k,v:Math.round(s.v*m),c:s.c}});
+  var top=stages[0].v||1;
+  stages.forEach(function(s,i){
+    var pctTop=(s.v/top*100);
+    var row=el('div','fun-row');
+    var lbl=el('div','fun-lbl');
+    lbl.innerHTML='<span class="nm"><i style="background:'+s.c+'"></i>'+t(s.k)+
+      '<span class="pc">'+pct1(pctTop)+' '+t('oflead')+'</span></span>'+
+      '<span class="vv">'+num(s.v)+'</span>';
+    var bar=el('div','fbar');
+    bar.innerHTML='<div class="ffill" style="background:linear-gradient(90deg,'+s.c+',rgba(255,255,255,.08))"></div>';
+    row.appendChild(lbl);row.appendChild(bar);
+    /* drop-off between stages */
+    if(i<stages.length-1){
+      var next=stages[i+1].v;
+      var dropPct=s.v?((s.v-next)/s.v*100):0;
+      var dr=el('div','fdrop','▾ '+t('drop')+' <b>−'+pct1(dropPct)+'</b>');
+      row.appendChild(dr);
+    }
+    box.appendChild(row);
+    var fill=bar.querySelector('.ffill');
+    setTimeout(function(){fill.style.width=Math.max(pctTop,4).toFixed(1)+'%'},80+i*90);
+    /* tooltip */
+    bar.addEventListener('mouseenter',function(e){
+      showTipRaw(e,t(s.k),[[s.c,num(s.v)],['transparent',pct1(pctTop)+' '+t('oflead')]]);
+    });
+    bar.addEventListener('mouseleave',hideTip);
+  });
+}
+
+/* ===== render gauge (semicircular) ===== */
+function renderGauge(){
+  var box=document.getElementById('gauge');box.innerHTML='';
+  var m=tm().mult;
+  var target=BASE.goal.target*m, achieved=BASE.goal.achieved*m;
+  var pct=Math.min(achieved/target*100,120);
+  var shownPct=achieved/target*100;
+  var W=300,H=170,cx=150,cy=150,r=120,sw=18;
+  /* semicircle from 180deg to 0deg */
+  function pt(a){return [cx+r*Math.cos(a),cy-r*Math.sin(a)]}
+  function arc(fromDeg,toDeg){
+    var a0=fromDeg*Math.PI/180, a1=toDeg*Math.PI/180;
+    var p0=pt(a0),p1=pt(a1);
+    var large=Math.abs(toDeg-fromDeg)>180?1:0;
+    var sweep=toDeg<fromDeg?1:0;
+    return 'M'+p0[0].toFixed(2)+' '+p0[1].toFixed(2)+' A'+r+' '+r+' 0 '+large+' '+sweep+' '+p1[0].toFixed(2)+' '+p1[1].toFixed(2);
+  }
+  var frac=Math.min(pct,100)/100;
+  var endDeg=180-frac*180;
+  var len=Math.PI*r;
+  var svg='<svg class="gsvg" viewBox="0 0 '+W+' '+H+'" role="img">';
+  svg+='<defs><linearGradient id="ggrad" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#0ea5a4"/><stop offset="1" stop-color="#34d399"/></linearGradient></defs>';
+  /* track */
+  svg+='<path class="garc" d="'+arc(180,0)+'" stroke="rgba(255,255,255,.06)" stroke-width="'+sw+'"/>';
+  /* ticks at 25/50/75 */
+  [.25,.5,.75].forEach(function(f){
+    var a=(180-f*180)*Math.PI/180;
+    var ri=r-sw/2-3, ro=r+sw/2+3;
+    svg+='<line x1="'+(cx+ri*Math.cos(a)).toFixed(1)+'" y1="'+(cy-ri*Math.sin(a)).toFixed(1)+'" x2="'+(cx+ro*Math.cos(a)).toFixed(1)+'" y2="'+(cy-ro*Math.sin(a)).toFixed(1)+'" stroke="rgba(255,255,255,.12)" stroke-width="2"/>';
+  });
+  /* progress (animated via stroke-dashoffset) */
+  svg+='<path id="gprog" class="garc" d="'+arc(180,0)+'" stroke="url(#ggrad)" stroke-width="'+sw+'" stroke-dasharray="'+len.toFixed(1)+'" stroke-dashoffset="'+len.toFixed(1)+'"/>';
+  /* needle dot at end */
+  var ep=pt(endDeg*Math.PI/180);
+  svg+='<circle id="gdot" cx="'+ep[0].toFixed(1)+'" cy="'+ep[1].toFixed(1)+'" r="0" fill="#fff" stroke="#34d399" stroke-width="3"/>';
+  svg+='</svg>';
+  box.innerHTML=svg+
+    '<div class="gnum"><b id="gval">0%</b><small data-i="ga_s2">'+(LANG==='es'?'de la meta mensual':'of monthly quota')+'</small></div>'+
+    '<div class="gmeta">'+
+      '<div><span class="gl">'+t('goalof')+'</span><span class="gv">'+moneyM(target)+'</span></div>'+
+      '<div><span class="gl">'+t('achieved')+'</span><span class="gv">'+moneyM(achieved)+'</span></div>'+
+      '<div><span class="gl">'+t('gap')+'</span><span class="gv">'+moneyM(Math.max(target-achieved,0))+'</span></div>'+
+    '</div>';
+  /* animate — usamos setTimeout (corre aun con la pestaña en segundo plano, a diferencia de rAF) */
+  var prog=box.querySelector('#gprog'), dot=box.querySelector('#gdot'), valEl=box.querySelector('#gval');
+  var offTarget=len*(1-frac);
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce){
+    prog.style.strokeDashoffset=offTarget.toFixed(1);
+    dot.setAttribute('r','6');
+    valEl.textContent=Math.round(shownPct)+'%';
+    return;
+  }
+  /* arco: transición CSS disparada en el próximo tick */
+  setTimeout(function(){
+    prog.style.transition='stroke-dashoffset 1.2s cubic-bezier(.22,1,.36,1)';
+    prog.style.strokeDashoffset=offTarget.toFixed(1);
+    dot.style.transition='r .4s ease .6s';
+    dot.setAttribute('r','6');
+  },30);
+  /* count-up del % por timer (resiliente a rAF pausado) */
+  var dur=1100, t0=Date.now();
+  var timer=setInterval(function(){
+    var p=Math.min((Date.now()-t0)/dur,1), e=1-Math.pow(1-p,3);
+    valEl.textContent=Math.round(shownPct*e)+'%';
+    if(p>=1){clearInterval(timer);valEl.textContent=Math.round(shownPct)+'%';}
+  },32);
+}
+
+/* ===== render revenue line chart ===== */
+function renderRev(){
+  var box=document.getElementById('revchart');
+  var m=tm().mult;
+  var real=BASE.revSeriesReal.map(function(v){return v*m});
+  var goal=BASE.revSeriesGoal.map(function(v){return v*m});
+  var labels=real.map(function(_,i){return t('week_w')+' '+(i+1)});
+  var W=620,H=230,padL=46,padR=12;
+  var pt=14, pb=26;
+  var all=real.concat(goal),mx=Math.max.apply(null,all);
+  /* niceStep */
+  function niceStep(range,ticks){
+    var raw=range/ticks, mag=Math.pow(10,Math.floor(Math.log10(raw))), n=raw/mag;
+    var s=n<1.5?1:n<3?2:n<7?5:10; return s*mag;
+  }
+  var step=niceStep(mx,4), top=Math.ceil(mx/step)*step + step*0.0;
+  top=Math.ceil((mx*1.08)/step)*step;
+  function X(i){return padL+i/(real.length-1)*(W-padL-padR)}
+  function Y(v){return pt+(1-v/top)*(H-pt-pb)}
+  function lp(arr){return arr.map(function(v,i){return (i?'L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1)}).join(' ')}
+  function ap(arr){return lp(arr)+' L'+X(arr.length-1).toFixed(1)+' '+(H-pb)+' L'+X(0).toFixed(1)+' '+(H-pb)+' Z'}
+  var svg='<svg class="chart" viewBox="0 0 '+W+' '+H+'" role="img">';
+  svg+='<defs><linearGradient id="rgrad" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#10b981" stop-opacity=".32"/><stop offset="1" stop-color="#10b981" stop-opacity="0"/></linearGradient></defs>';
+  /* gridlines + y labels */
+  for(var g=0;g<=4;g++){
+    var v=top*g/4, y=Y(v);
+    svg+='<line x1="'+padL+'" x2="'+(W-padR)+'" y1="'+y.toFixed(1)+'" y2="'+y.toFixed(1)+'" stroke="rgba(255,255,255,.05)"/>';
+    svg+='<text class="axlbl" x="'+(padL-8)+'" y="'+(y+3).toFixed(1)+'" text-anchor="end">'+moneyM(v).replace('$','$')+'</text>';
+  }
+  /* x labels */
+  labels.forEach(function(l,i){svg+='<text class="axlbl" x="'+X(i).toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle">'+l+'</text>'});
+  /* area + lines */
+  svg+='<path d="'+ap(real)+'" fill="url(#rgrad)"/>';
+  svg+='<path class="gline" d="'+lp(goal)+'" stroke="#5f8175" stroke-width="2" stroke-dasharray="5 5" opacity=".9"/>';
+  svg+='<path class="gline" d="'+lp(real)+'" stroke="#10b981"/>';
+  real.forEach(function(v,i){svg+='<circle class="dot" cx="'+X(i).toFixed(1)+'" cy="'+Y(v).toFixed(1)+'" r="3" fill="#10b981" data-i="'+i+'"/>'});
+  svg+='</svg>';
+  box.innerHTML=svg;
+  box.querySelectorAll('.dot').forEach(function(d){
+    d.addEventListener('mouseenter',function(e){
+      var i=+d.getAttribute('data-i');
+      showTipMoney(e,labels[i],[['#10b981',t('rev_real'),real[i]],['#5f8175',t('rev_goal'),goal[i]]]);
+      d.setAttribute('r','5.5');
+    });
+    d.addEventListener('mouseleave',function(){hideTip();d.setAttribute('r','3')});
+  });
+}
+
+/* ===== render leaderboard ===== */
+var lbKey='rev',lbDir=-1;
+function renderLb(){
+  var tbl=document.getElementById('lb');
+  var m=tm().mult;
+  /* al filtrar por región, escalo negocios/ingresos para que queden coherentes con el equipo */
+  var rf=TEAM==='all'?1:Math.min(1,m+0.35);
+  var rows=BASE.reps.map(function(r){
+    return {n:r.n,deals:Math.max(1,Math.round(r.deals*rf)),rev:r.rev*rf,goal:r.goal};
+  });
+  var cols=[['n','lb_rep',''],['deals','lb_deals','num'],['rev','lb_rev','num'],['goal','lb_goal','num']];
+  rows.sort(function(a,b){
+    var x=a[lbKey],y=b[lbKey];
+    if(typeof x==='string')return x.localeCompare(y)*lbDir;
+    return (x-y)*lbDir;
+  });
+  var h='<thead><tr>';
+  cols.forEach(function(c){h+='<th class="'+(c[2]?'num ':'')+(c[0]===lbKey?'sorted':'')+'" data-k="'+c[0]+'">'+t(c[1])+' <span class="ar">'+(c[0]===lbKey?(lbDir<0?'▼':'▲'):'⇅')+'</span></th>'});
+  h+='</tr></thead><tbody>';
+  rows.forEach(function(r,i){
+    var rkCls=lbKey==='rev'&&lbDir<0?(i===0?'m1':i===1?'m2':i===2?'m3':''):'';
+    var av=AV[Math.abs(hashStr(r.n))%AV.length];
+    var goalCls=r.goal>=100?'over':'under';
+    h+='<tr>'+
+      '<td><div class="rep"><span class="rk '+rkCls+'">'+(i+1)+'</span>'+
+        '<span class="av" style="background:'+av+'">'+initials(r.n).toUpperCase()+'</span>'+
+        '<span class="nm">'+r.n+'</span></div></td>'+
+      '<td class="num">'+num(r.deals)+'</td>'+
+      '<td class="num">'+moneyM(r.rev)+'</td>'+
+      '<td class="num"><div class="goalcell"><div class="gtrk"><i style="width:0" data-w="'+Math.min(r.goal,100)+'"></i></div>'+
+        '<span class="gpct '+goalCls+'">'+r.goal+'%</span></div></td>'+
+      '</tr>';
+  });
+  h+='</tbody>';
+  tbl.innerHTML=h;
+  /* animate goal bars */
+  tbl.querySelectorAll('.gtrk i').forEach(function(bar,i){
+    var w=+bar.getAttribute('data-w');
+    var full=+bar.parentNode.parentNode.querySelector('.gpct').textContent.replace('%','');
+    var col=full>=100?'linear-gradient(90deg,#10b981,#34d399)':'linear-gradient(90deg,#fbbf24,#f5b941)';
+    bar.style.background=col;
+    setTimeout(function(){bar.style.width=w+'%'},120+i*70);
+  });
+  tbl.querySelectorAll('th').forEach(function(th){
+    th.addEventListener('click',function(){
+      var k=th.getAttribute('data-k');
+      if(k===lbKey){lbDir*=-1}else{lbKey=k;lbDir=(k==='n')?1:-1}
+      renderLb();
+    });
+  });
+}
+function hashStr(s){var h=0;for(var i=0;i<s.length;i++){h=(h<<5)-h+s.charCodeAt(i);h|=0}return h}
+
+/* ===== render deals table ===== */
+function renderDeals(){
+  var tbl=document.getElementById('deals');
+  var rows=BASE.deals_recent;
+  var h='<thead><tr>'+
+    '<th>'+t('dl_client')+'</th>'+
+    '<th class="num">'+t('dl_amount')+'</th>'+
+    '<th>'+t('dl_stage')+'</th>'+
+    '<th class="num">'+t('dl_date')+'</th>'+
+    '</tr></thead><tbody>';
+  rows.forEach(function(r){
+    var sector=LANG==='es'?r.es:r.en;
+    var dd=new Date(r.d+'T00:00:00');
+    var dStr=new Intl.DateTimeFormat(locale(),{day:'2-digit',month:'short'}).format(dd);
+    h+='<tr>'+
+      '<td><div class="client">'+r.cl+'<small>'+sector+'</small></div></td>'+
+      '<td class="num">'+money(r.amt)+'</td>'+
+      '<td><span class="chip '+STAGE_CLS[r.st]+'">'+t(STAGE_KEY[r.st])+'</span></td>'+
+      '<td class="num dt">'+dStr+'</td>'+
+      '</tr>';
+  });
+  h+='</tbody>';
+  tbl.innerHTML=h;
+}
+
+/* ===== team selector (portal menu) ===== */
+function buildTeamMenu(){
+  var sel=document.getElementById('teamSel');
+  var menu=sel.querySelector('.menu');
+  menu.innerHTML='';
+  TEAMS.forEach(function(t0){
+    var b=el('button',(t0.id===TEAM?'on':''),(LANG==='es'?t0.es:t0.en)+'<svg class="ck"><use href="#i-ck"/></svg>');
+    b.setAttribute('data-id',t0.id);
+    menu.appendChild(b);
+  });
+  updateTeamLabel();
+}
+function updateTeamLabel(){
+  var t0=tm();
+  document.querySelector('[data-team-label]').textContent=(LANG==='es'?t0.es:t0.en);
+}
+function positionMenu(){
+  var sel=document.getElementById('teamSel');
+  var btn=sel.querySelector('button');
+  var menu=sel.querySelector('.menu');
+  var r=btn.getBoundingClientRect();
+  menu.style.top=(r.bottom+6)+'px';
+  var left=r.left;
+  if(left+menu.offsetWidth>innerWidth-8)left=innerWidth-8-menu.offsetWidth;
+  menu.style.left=Math.max(8,left)+'px';
+}
+
+/* ===== tooltips ===== */
+var tip=document.getElementById('tip');
+/* rows: [color, htmlText] — color 'transparent' = sin punto */
+function showTipRaw(e,title,rows){
+  var h='<div class="tt">'+title+'</div>';
+  rows.forEach(function(r){h+='<div class="tr"><i style="background:'+r[0]+'"></i>'+r[1]+'</div>'});
+  tip.innerHTML=h;tip.classList.add('on');moveTip(e);
+}
+function showTipMoney(e,title,rows){
+  var h='<div class="tt">'+title+'</div>';
+  rows.forEach(function(r){h+='<div class="tr"><i style="background:'+r[0]+'"></i>'+r[1]+': <b>'+moneyM(r[2])+'</b></div>'});
+  tip.innerHTML=h;tip.classList.add('on');moveTip(e);
+}
+function moveTip(e){var x=e.clientX+14,y=e.clientY-10;if(x+190>innerWidth)x=e.clientX-190;if(y<8)y=8;tip.style.left=x+'px';tip.style.top=y+'px'}
+function hideTip(){tip.classList.remove('on')}
+document.addEventListener('mousemove',function(e){if(tip.classList.contains('on'))moveTip(e)});
+
+/* ===== i18n apply ===== */
+function applyI18n(){
+  document.documentElement.lang=LANG;
+  document.querySelectorAll('[data-i]').forEach(function(e){e.textContent=t(e.getAttribute('data-i'))});
+}
+
+/* ===== render all ===== */
+function renderAll(){
+  applyI18n();
+  renderKpis();renderFunnel();renderGauge();renderRev();renderLb();renderDeals();
+  buildTeamMenu();
+}
+
+/* ===== controls ===== */
+document.getElementById('lang').addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b)return;
+  LANG=b.getAttribute('data-l');
+  this.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b)});
+  renderAll();
+});
+document.getElementById('period').addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b)return;
+  this.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b)});
+});
+
+/* team selector open/close + select */
+(function(){
+  var sel=document.getElementById('teamSel');
+  var btn=sel.querySelector('button');
+  var menu=sel.querySelector('.menu');
+  btn.addEventListener('click',function(ev){
+    ev.stopPropagation();
+    var open=sel.classList.toggle('open');
+    btn.setAttribute('aria-expanded',open?'true':'false');
+    if(open){positionMenu();menu.classList.add('on')}else{menu.classList.remove('on')}
+  });
+  menu.addEventListener('click',function(ev){
+    var b=ev.target.closest('button');if(!b)return;
+    TEAM=b.getAttribute('data-id');
+    sel.classList.remove('open');menu.classList.remove('on');btn.setAttribute('aria-expanded','false');
+    renderAll();
+  });
+  document.addEventListener('click',function(){if(sel.classList.contains('open')){sel.classList.remove('open');menu.classList.remove('on');btn.setAttribute('aria-expanded','false')}});
+  window.addEventListener('resize',function(){if(sel.classList.contains('open'))positionMenu()});
+  window.addEventListener('scroll',function(){if(sel.classList.contains('open'))positionMenu()},true);
+})();
+
+renderAll();
+</script>
+</body>
+</html>
