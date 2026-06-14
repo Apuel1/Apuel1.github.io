@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Servicios — Manuel Albar Diaz · Dashboards y sistemas Oracle APEX premium</title>
+<meta name="description" content="Especialista Oracle APEX 23.2 y PL/SQL. Dashboards premium hechos a mano (CSS/SVG/JS, anti-AI-slop) y sistemas APEX a medida. PL/SQL sólido por debajo, UI premium por arriba. Remoto desde Argentina, cobro en USD.">
+<meta property="og:title" content="Servicios — Manuel Albar Diaz · Oracle APEX premium">
+<meta property="og:description" content="Dashboards y sistemas Oracle APEX que la gente realmente quiere usar. PL/SQL sólido por debajo, UI premium hecha a mano por arriba.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://apuel1.github.io/servicios/">
+<meta property="og:image" content="https://apuel1.github.io/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://apuel1.github.io/assets/og.png">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0c1322">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"Manuel Albar Diaz — Oracle APEX & PL/SQL","serviceType":"Oracle APEX development, custom dashboards, PL/SQL","url":"https://apuel1.github.io/servicios/","email":"mailto:albardiazmartinezmanuel@gmail.com","provider":{"@type":"Person","name":"Manuel Albar Diaz","jobTitle":"Oracle APEX & PL/SQL Specialist","sameAs":["https://www.linkedin.com/in/manuel-albar-diaz","https://github.com/Apuel1"]},"areaServed":"Worldwide (remote, GMT-3)"}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230c1322'/%3E%3Cpath d='M14 44 26 26l8 10 10-16 6 8' stroke='%234fc3e8' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#0b1220; --surface:#111a2e; --surface-2:#15203a; --surface-3:#1a2745;
+    --line:#1f2c49; --line-2:#2b3c63;
+    --text:#eef2f9; --muted:#9aa8c2; --faint:#7d8aa3;
+    --accent:#4fc3e8; --accent-2:#6ee7c0; --accent-deep:#1b7fa3; --accent-soft:rgba(79,195,232,.12);
+    --grad:linear-gradient(120deg,var(--accent-deep),var(--accent) 55%,var(--accent-2));
+    --grad-bright:linear-gradient(120deg,#5fd4ff,#4fc3e8 45%,#7ee9cf);
+    --radius:18px; --radius-s:11px;
+    --shadow:0 24px 60px -28px rgba(0,0,0,.7);
+    --glow:0 0 0 1px rgba(79,195,232,.15), 0 18px 50px -22px rgba(79,195,232,.35);
+    --font-d:"Poppins",system-ui,sans-serif;
+    --font-b:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --space:clamp(60px,9vw,118px);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:78px}
+  body{background:var(--bg);color:var(--text);font-family:var(--font-b);
+       font-size:clamp(15px,1.05vw,17px);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:radial-gradient(1000px 560px at 88% -8%, rgba(79,195,232,.11), transparent 58%),
+              radial-gradient(760px 520px at -8% 102%, rgba(110,231,192,.06), transparent 55%)}
+  ::selection{background:var(--accent-deep);color:#fff}
+  h1,h2,h3{font-family:var(--font-d);line-height:1.14}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:5px}
+  .wrap{width:min(1120px,92%);margin:0 auto}
+  section{padding-top:var(--space)}
+  main{transition:opacity .16s ease}
+  main.swapping{opacity:.35}
+
+  /* ===== Nav ===== */
+  nav{position:sticky;top:0;z-index:50;background:rgba(11,18,32,.78);
+      backdrop-filter:blur(12px) saturate(140%);-webkit-backdrop-filter:blur(12px) saturate(140%);
+      border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 0}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--font-d);font-weight:700;color:var(--text);font-size:15px}
+  .brand:hover{text-decoration:none}
+  .brand svg{width:30px;height:30px;flex:none}
+  .nav-links{display:flex;align-items:center;gap:clamp(10px,2.3vw,24px);list-style:none}
+  .nav-links a{position:relative;color:var(--muted);font-size:14px;font-weight:500;padding:4px 2px;transition:color .18s ease}
+  .nav-links a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;
+                      background:var(--grad-bright);border-radius:2px;transition:right .22s ease}
+  .nav-links a:hover{color:var(--text);text-decoration:none}
+  .nav-links a:hover::after,.nav-links a.active::after{right:0}
+  .nav-links a.active{color:var(--text)}
+  .lang-toggle{display:flex;border:1px solid var(--line-2);border-radius:999px;overflow:hidden;flex:none}
+  .lang-toggle button{background:none;border:0;color:var(--muted);font:600 12.5px var(--font-b);
+                      padding:6px 13px;cursor:pointer;transition:color .15s,background .15s}
+  .lang-toggle button.on{background:var(--accent-soft);color:var(--accent)}
+  @media (max-width:760px){ .nav-links{display:none} }
+
+  /* ===== Hero ===== */
+  .hero{display:grid;grid-template-columns:1.08fr 1.12fr;gap:clamp(30px,5vw,58px);
+        align-items:center;padding-top:clamp(46px,7vw,82px)}
+  @media (max-width:880px){ .hero{grid-template-columns:1fr} }
+  .kicker{display:inline-flex;align-items:center;gap:9px;color:var(--accent);font:600 13px var(--font-d);
+          letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px}
+  .kicker::before{content:"";width:26px;height:2px;background:var(--grad);border-radius:2px}
+  .hero h1{font-size:clamp(33px,4.8vw,53px);font-weight:800;letter-spacing:-.6px}
+  .hero h1 .grad{background:var(--grad-bright);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .lead{color:var(--muted);font-size:clamp(16px,1.3vw,18.5px);margin:22px 0 18px;max-width:54ch}
+  .hero .pitch{color:var(--text);font-size:clamp(15px,1.2vw,17px);margin:0 0 30px;max-width:54ch;
+               border-left:3px solid var(--accent);padding-left:16px;font-weight:500}
+  .cta-row{display:flex;flex-wrap:wrap;gap:13px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:150px;
+       font:600 15px var(--font-d);border-radius:var(--radius-s);padding:13px 24px;
+       transition:transform .18s ease,box-shadow .18s ease;will-change:transform}
+  .btn:hover{transform:translateY(-2px);text-decoration:none}
+  .btn-pri{background:linear-gradient(120deg,#4fc3e8,#6ee7c0);color:#06121d;box-shadow:0 8px 22px -10px rgba(79,195,232,.6)}
+  .btn-pri:hover{box-shadow:0 14px 30px -10px rgba(79,195,232,.75)}
+  .btn-sec{border:1px solid var(--line-2);color:var(--text);background:var(--surface)}
+  .btn-sec:hover{border-color:var(--accent);background:var(--surface-2)}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:28px;color:var(--faint);font-size:13.5px}
+  .hero-meta span{display:inline-flex;align-items:center;gap:8px}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--accent-2);flex:none;
+       box-shadow:0 0 0 4px rgba(110,231,192,.12)}
+
+  /* Hero viz (dashboard SVG) */
+  .viz{position:relative;background:linear-gradient(180deg,#101a30,#0c1424);
+       border:1px solid var(--line-2);border-radius:var(--radius);padding:7px;box-shadow:var(--shadow)}
+  .viz::after{content:"";position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;
+              background:linear-gradient(135deg,rgba(79,195,232,.25),transparent 40%);mix-blend-mode:screen;opacity:.5}
+  .viz svg{display:block;width:100%;height:auto;border-radius:calc(var(--radius) - 7px);position:relative;z-index:1}
+
+  /* ===== Section heads ===== */
+  .sec-head{margin-bottom:clamp(26px,4vw,44px);max-width:64ch}
+  .sec-head.center{margin-left:auto;margin-right:auto;text-align:center}
+  .sec-head .kicker{margin-bottom:10px}
+  .sec-head h2{font-size:clamp(25px,3vw,36px);font-weight:700;letter-spacing:-.3px}
+  .sec-head p{color:var(--muted);margin-top:11px}
+  .sec-head.center .kicker{justify-content:center}
+
+  /* ===== Paquetes ===== */
+  .grid-pkg{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(290px,100%),1fr));gap:20px;align-items:stretch}
+  .pkg{position:relative;display:flex;flex-direction:column;background:var(--surface);
+       border:1px solid var(--line);border-radius:var(--radius);padding:28px 26px;overflow:hidden;
+       transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;will-change:transform}
+  .pkg::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--grad);opacity:.35;transition:opacity .25s ease}
+  .pkg:hover{transform:translateY(-5px);border-color:var(--line-2);box-shadow:0 22px 48px -28px rgba(0,0,0,.85)}
+  .pkg:hover::before{opacity:1}
+  .pkg.feat{border-color:var(--line-2);box-shadow:var(--glow)}
+  .pkg.feat::before{opacity:1;height:5px}
+  .pkg .badge{position:absolute;top:16px;right:16px;font:700 10.5px var(--font-b);letter-spacing:.06em;
+              text-transform:uppercase;color:#06121d;background:linear-gradient(120deg,#4fc3e8,#6ee7c0);
+              padding:4px 11px;border-radius:999px}
+  .pkg .pk-ix{font:700 12px var(--font-d);color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+  .pkg h3{font-size:19px;font-weight:700;letter-spacing:-.2px;margin-bottom:8px;max-width:14ch}
+  .pkg .for{color:var(--faint);font-size:13.5px;font-style:italic;margin-bottom:18px;min-height:2.6em}
+  .pkg .price{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:4px}
+  .pkg .price .from{font-size:12.5px;color:var(--faint);font-weight:600}
+  .pkg .price .amt{font:800 27px var(--font-d);color:var(--text);letter-spacing:-.5px}
+  .pkg .price .cur{font-size:13px;color:var(--muted);font-weight:600}
+  .pkg .timeline{font-size:12.5px;color:var(--accent-2);font-weight:600;margin-bottom:20px}
+  .pkg .timeline svg{width:13px;height:13px;vertical-align:-2px;margin-right:4px;stroke:var(--accent-2);fill:none;stroke-width:2}
+  .pkg .div{height:1px;background:var(--line);margin:0 0 18px}
+  .pkg .lbl{font:600 11px var(--font-b);letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:10px}
+  .pkg ul{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:20px}
+  .pkg li{position:relative;padding-left:25px;font-size:14px;color:var(--muted)}
+  .pkg li::before{content:"";position:absolute;left:0;top:7px;width:14px;height:14px;border-radius:50%;
+                  background:var(--accent-soft);border:1px solid rgba(79,195,232,.4)}
+  .pkg li::after{content:"";position:absolute;left:4.5px;top:10px;width:5px;height:2.5px;border-left:2px solid var(--accent);
+                 border-bottom:2px solid var(--accent);transform:rotate(-45deg)}
+  .pkg .deliv{font-size:13px;color:var(--faint);border-top:1px dashed var(--line-2);padding-top:14px;margin-bottom:20px;line-height:1.55}
+  .pkg .deliv b{color:var(--muted);font-weight:600}
+  .pkg .pk-cta{margin-top:auto}
+  .pkg .pk-cta .btn{width:100%;min-width:0;padding:11px 18px;font-size:14px}
+  .pkg-note{margin-top:20px;color:var(--faint);font-size:13px;text-align:center;max-width:70ch;margin-left:auto;margin-right:auto}
+
+  /* ===== Pruebas / demos ===== */
+  .grid-proof{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(330px,100%),1fr));gap:20px}
+  .proof{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);
+         border-radius:var(--radius);overflow:hidden;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;will-change:transform}
+  .proof:hover{transform:translateY(-5px);border-color:var(--line-2);box-shadow:0 22px 44px -28px rgba(0,0,0,.8)}
+  .proof .thumb{line-height:0;border-bottom:1px solid var(--line);background:#0d1526}
+  .proof .thumb svg{display:block;width:100%;height:auto;transition:transform .3s ease}
+  .proof:hover .thumb svg{transform:scale(1.03)}
+  .proof .body{padding:24px 24px 26px;display:flex;flex-direction:column;flex:1}
+  .proof h3{font-size:17px;font-weight:700;margin-bottom:8px}
+  .proof p{color:var(--muted);font-size:14px;margin-bottom:16px}
+  .proof ul{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+  .proof li{position:relative;padding-left:22px;font-size:13.5px;color:var(--muted)}
+  .proof li svg{position:absolute;left:0;top:3px;width:15px;height:15px;stroke:var(--accent-2);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+  .proof .p-cta{margin-top:auto;display:inline-flex;align-items:center;gap:7px;align-self:flex-start;
+                padding:10px 18px;border-radius:11px;background:var(--grad);color:#04121b;font-weight:700;font-size:.9rem;text-decoration:none;
+                transition:transform .18s ease,box-shadow .18s ease}
+  .proof .p-cta:hover{transform:translateY(-2px);box-shadow:0 12px 26px -12px rgba(79,195,232,.7);text-decoration:none}
+
+  /* ===== Proceso ===== */
+  .grid-proc{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));gap:18px;counter-reset:step}
+  .step{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+        padding:26px 24px;transition:transform .2s ease,border-color .2s ease}
+  .step:hover{transform:translateY(-4px);border-color:var(--line-2)}
+  .step .n{counter-increment:step;font:800 15px var(--font-d);width:40px;height:40px;border-radius:12px;
+           display:grid;place-items:center;color:var(--accent);background:var(--accent-soft);
+           border:1px solid rgba(79,195,232,.3);margin-bottom:16px}
+  .step .n::before{content:"0" counter(step)}
+  .step h3{font-size:16px;font-weight:600;margin-bottom:8px}
+  .step p{color:var(--muted);font-size:14px}
+
+  /* ===== Por qué especialista ===== */
+  .why{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr));gap:18px}
+  .why .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+             padding:26px 24px;position:relative;overflow:hidden;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+  .why .card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--grad);opacity:0;transition:opacity .25s ease}
+  .why .card:hover{transform:translateY(-5px);border-color:var(--line-2);box-shadow:0 22px 44px -28px rgba(0,0,0,.8)}
+  .why .card:hover::before{opacity:1}
+  .why .ico{width:44px;height:44px;border-radius:12px;background:var(--accent-soft);
+            border:1px solid rgba(79,195,232,.28);display:grid;place-items:center;margin-bottom:16px}
+  .why .ico svg{width:22px;height:22px;stroke:var(--accent);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .why h3{font-size:16.5px;font-weight:600;margin-bottom:9px}
+  .why p{color:var(--muted);font-size:14.3px}
+
+  /* ===== Contacto ===== */
+  .contact-box{background:linear-gradient(180deg,var(--surface),#0e1729);border:1px solid var(--line-2);
+               border-radius:var(--radius);padding:clamp(34px,5vw,58px);text-align:center;position:relative;overflow:hidden}
+  .contact-box::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--grad);z-index:2}
+  .contact-box::after{content:"";position:absolute;width:340px;height:340px;right:-90px;top:-150px;border-radius:50%;
+                      background:radial-gradient(circle,rgba(79,195,232,.16),transparent 65%);pointer-events:none}
+  .contact-box h2{font-size:clamp(25px,3vw,33px);margin-bottom:13px;position:relative}
+  .contact-box p{color:var(--muted);max-width:56ch;margin:0 auto 30px;position:relative}
+  .contact-links{display:flex;flex-wrap:wrap;justify-content:center;gap:13px;position:relative}
+
+  footer{margin-top:var(--space);border-top:1px solid var(--line);padding:28px 0 36px}
+  footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;color:var(--faint);font-size:13px}
+  footer a{color:var(--muted)}
+
+  /* Reveal (una vez) */
+  .rv{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+  .rv.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .rv{opacity:1;transform:none;transition:none}
+    .btn,.pkg,.proof,.step,.why .card,.proof .thumb svg,main{transition:none}
+    .viz svg *{animation:none!important}
+    .nav-links a::after{transition:none}
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <linearGradient id="gTop" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#1b7fa3"/><stop offset=".55" stop-color="#4fc3e8"/><stop offset="1" stop-color="#6ee7c0"/></linearGradient>
+  <linearGradient id="gArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4fc3e8" stop-opacity=".42"/><stop offset="1" stop-color="#4fc3e8" stop-opacity="0"/></linearGradient>
+  <linearGradient id="gBar" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2e6f9a"/><stop offset="1" stop-color="#4fc3e8"/></linearGradient>
+</defs></svg>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Inicio">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#15203a"/><path d="M14 44 26 26l8 10 10-16 6 8" stroke="#4fc3e8" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Manuel Albar Diaz
+    </a>
+    <ul class="nav-links">
+      <li><a href="#paquetes" data-i18n="nav_pkg">Paquetes</a></li>
+      <li><a href="#pruebas" data-i18n="nav_proof">Demos en vivo</a></li>
+      <li><a href="#proceso" data-i18n="nav_proc">Cómo trabajo</a></li>
+      <li><a href="#especialista" data-i18n="nav_why">Por qué APEX</a></li>
+      <li><a href="https://apuel1.github.io/" data-i18n="nav_port">Portfolio</a></li>
+      <li><a href="#contacto" data-i18n="nav_contact">Contacto</a></li>
+    </ul>
+    <div class="lang-toggle" role="group" aria-label="Idioma / Language">
+      <button id="lang-es" class="on" type="button">ES</button>
+      <button id="lang-en" type="button">EN</button>
+    </div>
+  </div>
+</nav>
+
+<main id="top" class="wrap">
+
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <div>
+      <span class="kicker" data-i18n="hero_k">Servicios · Oracle APEX 23.2</span>
+      <h1 data-i18n-html="hero_h1">Dashboards y sistemas <span class="grad">Oracle APEX</span> que la gente realmente quiere usar</h1>
+      <p class="lead" data-i18n="hero_lead">Para empresas que ya corren Oracle Database y necesitan visibilidad operativa real o un sistema a medida — no otra planilla cruda. Del modelo de datos al último pixel.</p>
+      <p class="pitch" data-i18n="hero_pitch">PL/SQL sólido por debajo, una UI premium hecha a mano por arriba. La mayoría de las apps APEX son funcionales pero feas. Yo entrego las dos cosas.</p>
+      <div class="cta-row">
+        <a class="btn btn-pri" href="mailto:albardiazmartinezmanuel@gmail.com?subject=Proyecto%20Oracle%20APEX" data-i18n="cta_mail">Escribime</a>
+        <a class="btn btn-sec" href="#paquetes" data-i18n="cta_pkg">Ver paquetes y precios</a>
+      </div>
+      <div class="hero-meta">
+        <span><span class="dot"></span><span data-i18n="meta_loc">Remoto desde Argentina (GMT-3) · cobro en USD</span></span>
+        <span><span class="dot"></span><span data-i18n="meta_av">~3 años en producción · sin exclusividad</span></span>
+      </div>
+    </div>
+
+    <!-- Dashboard SVG: lo que vendo, mostrado -->
+    <div class="viz" aria-hidden="true">
+      <svg viewBox="0 0 600 432" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif">
+        <rect width="600" height="432" rx="2" fill="#0d1526"/>
+        <rect x="0" y="0" width="600" height="5" fill="url(#gTop)"/>
+
+        <!-- Panel header -->
+        <g>
+          <circle cx="26" cy="32" r="4" fill="#ff6b6b" opacity=".7"/>
+          <circle cx="40" cy="32" r="4" fill="#ffd479" opacity=".7"/>
+          <circle cx="54" cy="32" r="4" fill="#6ee7c0" opacity=".8"/>
+          <text x="78" y="37" fill="#eef2f9" font-size="13.5" font-weight="700">Panel ejecutivo</text>
+          <g font-size="11" font-weight="600">
+            <rect x="438" y="20" width="44" height="24" rx="7" fill="#16223c" stroke="#2b3c63"/><text x="460" y="36" fill="#cdeefb" text-anchor="middle">Mes</text>
+            <rect x="488" y="20" width="44" height="24" rx="7" fill="#0f1830"/><text x="510" y="36" fill="#7d8aa3" text-anchor="middle">Trim</text>
+            <rect x="538" y="20" width="44" height="24" rx="7" fill="#0f1830"/><text x="560" y="36" fill="#7d8aa3" text-anchor="middle">Año</text>
+          </g>
+        </g>
+
+        <!-- KPI row -->
+        <g class="kpi">
+          <rect x="22" y="58" width="178" height="96" rx="13" fill="#121d33" stroke="#1f2c49"/>
+          <text x="40" y="84" fill="#9aa8c2" font-size="11.5">Ingresos</text>
+          <text x="40" y="116" fill="#eef2f9" font-size="27" font-weight="800">$842k</text>
+          <g transform="translate(40,130)"><path d="M0 5 L4 1 L8 5 Z" fill="#6ee7c0"/><text x="13" y="9" fill="#6ee7c0" font-size="11.5" font-weight="700">18%</text><text x="48" y="9" fill="#7d8aa3" font-size="10.5">vs mes</text></g>
+          <polyline class="spark" points="150,138 158,132 166,135 174,126 182,120 190,110" fill="none" stroke="#4fc3e8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="211" y="58" width="178" height="96" rx="13" fill="#121d33" stroke="#1f2c49"/>
+          <text x="229" y="84" fill="#9aa8c2" font-size="11.5">Conversión</text>
+          <text x="229" y="116" fill="#eef2f9" font-size="27" font-weight="800">32,4%</text>
+          <g transform="translate(229,130)"><path d="M0 5 L4 1 L8 5 Z" fill="#6ee7c0"/><text x="13" y="9" fill="#6ee7c0" font-size="11.5" font-weight="700">4,2 pts</text></g>
+          <polyline class="spark" points="335,134 343,136 351,128 359,130 367,118 375,112" fill="none" stroke="#4fc3e8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="400" y="58" width="178" height="96" rx="13" fill="#121d33" stroke="#1f2c49"/>
+          <text x="418" y="84" fill="#9aa8c2" font-size="11.5">Cumplimiento</text>
+          <path d="M 430 138 A 34 34 0 1 1 498 138" fill="none" stroke="#1f2c49" stroke-width="9" stroke-linecap="round"/>
+          <path class="gauge" d="M 430 138 A 34 34 0 1 1 498 138" fill="none" stroke="#4fc3e8" stroke-width="9" stroke-linecap="round"/>
+          <text x="464" y="132" fill="#eef2f9" font-size="20" font-weight="800" text-anchor="middle">78%</text>
+          <text x="520" y="112" fill="#6ee7c0" font-size="11.5" font-weight="700">Meta</text>
+          <text x="520" y="130" fill="#7d8aa3" font-size="10.5">75%</text>
+        </g>
+
+        <!-- Area chart (left) -->
+        <g>
+          <rect x="22" y="166" width="368" height="250" rx="13" fill="#121d33" stroke="#1f2c49"/>
+          <text x="40" y="192" fill="#eef2f9" font-size="13" font-weight="600">Evolución mensual</text>
+          <g transform="translate(330,184)"><circle cx="0" cy="0" r="4" fill="#4fc3e8"/><text x="9" y="4" fill="#9aa8c2" font-size="11">2026</text></g>
+          <g stroke="#1a2545" stroke-width="1" opacity=".55"><line x1="64" y1="240" x2="372" y2="240"/><line x1="64" y1="292" x2="372" y2="292"/><line x1="64" y1="344" x2="372" y2="344"/></g>
+          <g fill="#5d6b85" font-size="9.5"><text x="36" y="244">15k</text><text x="36" y="296">10k</text><text x="36" y="348">5k</text></g>
+          <path class="area" d="M 70 344 L 116 326 L 162 332 L 208 300 L 254 288 L 300 262 L 360 238 L 360 392 L 70 392 Z" fill="url(#gArea)"/>
+          <path class="gline" d="M 70 344 L 116 326 L 162 332 L 208 300 L 254 288 L 300 262 L 360 238" fill="none" stroke="#4fc3e8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <g class="gpts" fill="#0d1526" stroke="#4fc3e8" stroke-width="2.5">
+            <circle cx="70" cy="344" r="3.5"/><circle cx="116" cy="326" r="3.5"/><circle cx="162" cy="332" r="3.5"/><circle cx="208" cy="300" r="3.5"/><circle cx="254" cy="288" r="3.5"/><circle cx="300" cy="262" r="3.5"/>
+          </g>
+          <circle class="peak" cx="360" cy="238" r="5" fill="#6ee7c0" stroke="#0d1526" stroke-width="2"/>
+          <g class="tip" transform="translate(298,200)">
+            <rect x="0" y="0" width="86" height="34" rx="8" fill="#1a2745" stroke="#2b3c63"/>
+            <text x="11" y="15" fill="#9aa8c2" font-size="9.5">Jul</text>
+            <text x="11" y="28" fill="#eef2f9" font-size="12" font-weight="700">14.250</text>
+            <path d="M 24 34 l 5 6 l 5 -6 Z" fill="#1a2745" stroke="#2b3c63"/>
+          </g>
+          <g fill="#5d6b85" font-size="9" text-anchor="middle"><text x="70" y="406">E</text><text x="116" y="406">F</text><text x="162" y="406">M</text><text x="208" y="406">A</text><text x="254" y="406">M</text><text x="300" y="406">J</text><text x="360" y="406">J</text></g>
+        </g>
+
+        <!-- Ranking (right) -->
+        <g>
+          <rect x="400" y="166" width="178" height="250" rx="13" fill="#121d33" stroke="#1f2c49"/>
+          <text x="418" y="192" fill="#eef2f9" font-size="13" font-weight="600">Top regiones</text>
+          <g font-size="10.5">
+            <text x="418" y="224" fill="#9aa8c2">Norte</text><rect class="gbar" x="468" y="215" width="92" height="11" rx="5.5" fill="url(#gBar)"/><text x="566" y="224" fill="#cdeefb" text-anchor="end" font-weight="700">98</text>
+            <text x="418" y="252" fill="#9aa8c2">Centro</text><rect class="gbar" x="468" y="243" width="70" height="11" rx="5.5" fill="#2e5e84"/><text x="544" y="252" fill="#9aa8c2" text-anchor="end">74</text>
+            <text x="418" y="280" fill="#9aa8c2">Sur</text><rect class="gbar" x="468" y="271" width="54" height="11" rx="5.5" fill="#2e5e84"/><text x="528" y="280" fill="#9aa8c2" text-anchor="end">58</text>
+            <text x="418" y="308" fill="#9aa8c2">Este</text><rect class="gbar" x="468" y="299" width="40" height="11" rx="5.5" fill="#2e5e84"/><text x="514" y="308" fill="#9aa8c2" text-anchor="end">41</text>
+            <text x="418" y="336" fill="#9aa8c2">Oeste</text><rect class="gbar" x="468" y="327" width="28" height="11" rx="5.5" fill="#2e5e84"/><text x="502" y="336" fill="#9aa8c2" text-anchor="end">29</text>
+          </g>
+          <line x1="418" y1="356" x2="560" y2="356" stroke="#1f2c49"/>
+          <text x="418" y="380" fill="#7d8aa3" font-size="10">Total</text>
+          <text x="560" y="380" fill="#eef2f9" font-size="13" font-weight="700" text-anchor="end">312</text>
+        </g>
+
+        <style>
+          .kpi text,.kpi path,.kpi polyline{opacity:0;animation:fade .5s .2s ease forwards}
+          .spark{stroke-dasharray:90;stroke-dashoffset:90;animation:draw 1s .6s ease forwards}
+          .gauge{stroke-dasharray:160;stroke-dashoffset:160;animation:gfill 1.2s .6s ease forwards}
+          .area{opacity:0;animation:fade .9s .7s ease forwards}
+          .gline{stroke-dasharray:560;stroke-dashoffset:560;animation:draw 1.7s .4s ease forwards}
+          .gpts circle{opacity:0;transform:scale(0);transform-box:fill-box;transform-origin:center;animation:pop .4s ease forwards}
+          .gpts circle:nth-child(1){animation-delay:.7s}.gpts circle:nth-child(2){animation-delay:.85s}
+          .gpts circle:nth-child(3){animation-delay:1s}.gpts circle:nth-child(4){animation-delay:1.15s}
+          .gpts circle:nth-child(5){animation-delay:1.3s}.gpts circle:nth-child(6){animation-delay:1.45s}
+          .peak{opacity:0;transform:scale(0);transform-box:fill-box;transform-origin:center;animation:pop .45s 1.7s ease forwards}
+          .tip{opacity:0;transform:translate(298px,206px);animation:tipin .5s 2s ease forwards}
+          .gbar{transform:scaleX(0);transform-box:fill-box;transform-origin:left;animation:grow .9s .6s ease forwards}
+          .gbar:nth-of-type(2){animation-delay:.72s}.gbar:nth-of-type(3){animation-delay:.84s}
+          .gbar:nth-of-type(4){animation-delay:.96s}.gbar:nth-of-type(5){animation-delay:1.08s}
+          @keyframes draw{to{stroke-dashoffset:0}}
+          @keyframes gfill{to{stroke-dashoffset:55}}
+          @keyframes fade{to{opacity:1}}
+          @keyframes pop{to{opacity:1;transform:scale(1)}}
+          @keyframes grow{to{transform:scaleX(1)}}
+          @keyframes tipin{to{opacity:1;transform:translate(298px,200px)}}
+        </style>
+      </svg>
+    </div>
+  </header>
+
+  <!-- ============ PAQUETES ============ -->
+  <section id="paquetes">
+    <div class="sec-head rv">
+      <span class="kicker" data-i18n="pkg_k">Qué podés contratar</span>
+      <h2 data-i18n="pkg_h">Tres formas de empezar</h2>
+      <p data-i18n="pkg_p">Precio fijo, scope claro, sabés qué recibís y cuándo. Nada de tarifa por hora a ciegas. Los precios son "desde": el número final sale de una llamada corta donde entiendo el problema.</p>
+    </div>
+    <div class="grid-pkg">
+
+      <!-- Paquete 1 -->
+      <article class="pkg rv">
+        <div class="pk-ix" data-i18n="pk1_ix">Punta de lanza</div>
+        <h3 data-i18n="pk1_h">Rediseño de dashboard</h3>
+        <p class="for" data-i18n="pk1_for">"Tengo un dashboard APEX que funciona pero parece de 2009, nadie lo mira o es lento."</p>
+        <div class="price"><span class="from" data-i18n="from1">desde</span><span class="amt">USD 600</span><span class="cur" data-i18n="cur1">por proyecto</span></div>
+        <div class="timeline"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span data-i18n="tl1">2–3 semanas</span></div>
+        <div class="div"></div>
+        <div class="lbl" data-i18n="scope_l">Incluye</div>
+        <ul>
+          <li data-i18n="pk1_s1">Rediseño completo de 1 página/dashboard: CSS y SVG a medida</li>
+          <li data-i18n="pk1_s2">KPIs en vivo, charts y comparación entre períodos (A/B)</li>
+          <li data-i18n="pk1_s3">Refresco dinámico por AJAX, sin recargar la página</li>
+          <li data-i18n="pk1_s4">Responsive real (clamp / auto-fit / minmax). Sin tocar el modelo de datos</li>
+        </ul>
+        <div class="deliv"><b data-i18n="deliv_l">Entregables:</b> <span data-i18n="pk1_d">página rediseñada en tu app · 1 archivo CSS/JS documentado · video 2 min antes/después · pasada responsive.</span></div>
+        <div class="pk-cta"><a class="btn btn-sec" href="mailto:albardiazmartinezmanuel@gmail.com?subject=Redise%C3%B1o%20de%20dashboard%20APEX" data-i18n="pk_cta">Consultar</a></div>
+      </article>
+
+      <!-- Paquete 2 (destacado) -->
+      <article class="pkg feat rv">
+        <span class="badge" data-i18n="badge">El más elegido</span>
+        <div class="pk-ix" data-i18n="pk2_ix">Llave en mano</div>
+        <h3 data-i18n="pk2_h">Dashboard premium completo</h3>
+        <p class="for" data-i18n="pk2_for">"No tengo dashboard. Necesito visibilidad operativa o ejecutiva de mis datos, de cero."</p>
+        <div class="price"><span class="from" data-i18n="from2">desde</span><span class="amt">USD 1.800</span><span class="cur" data-i18n="cur2">por proyecto</span></div>
+        <div class="timeline"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span data-i18n="tl2">3–5 semanas</span></div>
+        <div class="div"></div>
+        <div class="lbl" data-i18n="scope_l2">Incluye</div>
+        <ul>
+          <li data-i18n="pk2_s1">App/página nueva desde cero: relevamiento de KPIs y fuentes</li>
+          <li data-i18n="pk2_s2">Modelo de consultas PL/SQL, charts a medida, drill-down</li>
+          <li data-i18n="pk2_s3">Filtros dinámicos, branding anti-AI-slop, deploy</li>
+          <li data-i18n="pk2_s4">2 semanas de soporte post-entrega incluidas</li>
+        </ul>
+        <div class="deliv"><b data-i18n="deliv_l2">Entregables:</b> <span data-i18n="pk2_d">dashboard funcionando en tu instancia · queries/PL-SQL documentado · guía de uso de 1 página · 2 semanas de soporte.</span></div>
+        <div class="pk-cta"><a class="btn btn-pri" href="mailto:albardiazmartinezmanuel@gmail.com?subject=Dashboard%20APEX%20llave%20en%20mano" data-i18n="pk_cta2">Quiero esto</a></div>
+      </article>
+
+      <!-- Paquete 3 -->
+      <article class="pkg rv">
+        <div class="pk-ix" data-i18n="pk3_ix">A medida</div>
+        <h3 data-i18n="pk3_h">App o sistema APEX</h3>
+        <p class="for" data-i18n="pk3_for">"Necesito un módulo o un sistema entero" · "tengo Forms legacy que migrar" · "mi proceso vive en Excel."</p>
+        <div class="price"><span class="from" data-i18n="from3">desde</span><span class="amt">USD 3.500</span><span class="cur" data-i18n="cur3">por proyecto</span></div>
+        <div class="timeline"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span data-i18n="tl3">6–10 semanas</span></div>
+        <div class="div"></div>
+        <div class="lbl" data-i18n="scope_l3">Incluye</div>
+        <ul>
+          <li data-i18n="pk3_s1">Análisis de requerimientos (casos de uso, BPMN/UML) y modelo de datos</li>
+          <li data-i18n="pk3_s2">PL/SQL, páginas, reportes y grillas interactivas, REST</li>
+          <li data-i18n="pk3_s3">Seguridad, performance, UI premium y deploy</li>
+          <li data-i18n="pk3_s4">Migración Forms → APEX por módulo entra acá</li>
+        </ul>
+        <div class="deliv"><b data-i18n="deliv_l3">Entregables:</b> <span data-i18n="pk3_d">sistema/módulo en producción · documentación técnica · capacitación 1h · período de soporte y garantía.</span></div>
+        <div class="pk-cta"><a class="btn btn-sec" href="mailto:albardiazmartinezmanuel@gmail.com?subject=App%20o%20sistema%20APEX%20a%20medida" data-i18n="pk_cta3">Consultar</a></div>
+      </article>
+
+    </div>
+    <p class="pkg-note" data-i18n="pkg_note">¿Algo más chico? También hago auditoría de dashboard + quick wins, reportes PDF a medida y optimización de queries lentas como trabajos express. Preguntá.</p>
+  </section>
+
+  <!-- ============ PRUEBAS / DEMOS ============ -->
+  <section id="pruebas">
+    <div class="sec-head rv">
+      <span class="kicker" data-i18n="proof_k">No me creas — miralo</span>
+      <h2 data-i18n="proof_h">Demos en vivo</h2>
+      <p data-i18n="proof_p">Dos dashboards funcionando, hechos a mano en HTML/CSS/JS y listos para portar a Oracle APEX. Bilingües, responsive, abiertos en tu navegador ahora mismo.</p>
+    </div>
+    <div class="grid-proof">
+
+      <article class="proof rv">
+        <div class="thumb"><svg viewBox="0 0 400 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+          <rect width="400" height="170" fill="#0b1020"/><rect width="400" height="3" fill="#6366f1"/>
+          <rect x="18" y="16" width="84" height="44" rx="8" fill="#141b33" stroke="#243056"/><text x="30" y="34" fill="#9aa6c8" font-size="8" font-family="system-ui">Inventario</text><text x="30" y="52" fill="#eaf0ff" font-size="14" font-weight="700" font-family="system-ui">$842M</text>
+          <rect x="110" y="16" width="84" height="44" rx="8" fill="#141b33" stroke="#243056"/><text x="122" y="34" fill="#9aa6c8" font-size="8" font-family="system-ui">Rotación</text><text x="122" y="52" fill="#a9b1ff" font-size="14" font-weight="700" font-family="system-ui">4,8×</text>
+          <rect x="202" y="16" width="84" height="44" rx="8" fill="#141b33" stroke="#243056"/><text x="214" y="34" fill="#9aa6c8" font-size="8" font-family="system-ui">Alertas</text><text x="214" y="52" fill="#fbbf24" font-size="14" font-weight="700" font-family="system-ui">14</text>
+          <rect x="294" y="16" width="88" height="44" rx="8" fill="#141b33" stroke="#243056"/><text x="306" y="34" fill="#9aa6c8" font-size="8" font-family="system-ui">Mov.</text><text x="306" y="52" fill="#34d399" font-size="14" font-weight="700" font-family="system-ui">1.786</text>
+          <rect x="18" y="72" width="364" height="82" rx="8" fill="#141b33" stroke="#243056"/>
+          <path d="M 34 134 L 78 122 L 122 126 L 166 106 L 210 112 L 254 96 L 298 100 L 342 86 L 366 90 L 366 146 L 34 146 Z" fill="#6366f1" fill-opacity=".22"/>
+          <path d="M 34 134 L 78 122 L 122 126 L 166 106 L 210 112 L 254 96 L 298 100 L 342 86 L 366 90" fill="none" stroke="#8b5cf6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg></div>
+        <div class="body">
+          <h3 data-i18n="d1_h">Dashboard de inventario</h3>
+          <p data-i18n="d1_p">Gestión de stock, entradas/salidas, rotación y alertas — el tipo de control que una operación mira todos los días.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="d1_b1">KPIs en vivo con tendencia y comparación de períodos</span></li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="d1_b2">Charts CSS/SVG a medida, sin librerías pesadas</span></li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="d1_b3">Bilingüe, responsive 360→1440, APEX-ready</span></li>
+          </ul>
+          <a class="p-cta" href="https://apuel1.github.io/demos/stockly/" target="_blank" rel="noopener" data-i18n="d1_cta">Abrir demo en vivo →</a>
+        </div>
+      </article>
+
+      <article class="proof rv">
+        <div class="thumb"><svg viewBox="0 0 400 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+          <rect width="400" height="170" fill="#07140f"/><rect width="400" height="3" fill="#10b981"/>
+          <rect x="20" y="26" width="150" height="14" rx="4" fill="#10b981" fill-opacity=".85"/>
+          <rect x="34" y="50" width="122" height="14" rx="4" fill="#10b981" fill-opacity=".6"/>
+          <rect x="48" y="74" width="94" height="14" rx="4" fill="#10b981" fill-opacity=".4"/>
+          <rect x="62" y="98" width="66" height="14" rx="4" fill="#10b981" fill-opacity=".25"/>
+          <path d="M 252 118 A 56 56 0 0 1 364 118" fill="none" stroke="#13323a" stroke-width="12" stroke-linecap="round"/>
+          <path d="M 252 118 A 56 56 0 0 1 352 78" fill="none" stroke="#34d399" stroke-width="12" stroke-linecap="round"/>
+          <text x="308" y="112" fill="#eafff5" font-size="19" font-weight="700" text-anchor="middle" font-family="system-ui">78%</text>
+          <text x="308" y="136" fill="#7fd6b9" font-size="9" text-anchor="middle" font-family="system-ui">Meta</text>
+          <g font-family="system-ui" font-size="9" fill="#9ad9c2"><text x="22" y="132">1 · Vega</text><rect x="92" y="124" width="72" height="9" rx="4.5" fill="#10b981"/><text x="22" y="150">2 · Ríos</text><rect x="92" y="142" width="52" height="9" rx="4.5" fill="#1f6f57"/></g>
+        </svg></div>
+        <div class="body">
+          <h3 data-i18n="d2_h">Dashboard de ventas</h3>
+          <p data-i18n="d2_p">Embudo de ventas, cumplimiento de meta, ranking de vendedores y evolución de ingresos en una sola pantalla.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="d2_b1">Gauge de cumplimiento y ranking ordenable</span></li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="d2_b2">El acento de marca marca el dato que importa, no decora</span></li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="d2_b3">Bilingüe, responsive, hecho a mano, APEX-ready</span></li>
+          </ul>
+          <a class="p-cta" href="https://apuel1.github.io/demos/vendly/" target="_blank" rel="noopener" data-i18n="d2_cta">Abrir demo en vivo →</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============ PROCESO ============ -->
+  <section id="proceso">
+    <div class="sec-head rv">
+      <span class="kicker" data-i18n="proc_k">Sin sorpresas</span>
+      <h2 data-i18n="proc_h">Cómo trabajo</h2>
+      <p data-i18n="proc_p">Trabajo en una copia aislada y nunca toco tu app en producción hasta que aprobás. Cobro 40–50% para arrancar y el resto contra entrega aprobada.</p>
+    </div>
+    <div class="grid-proc rv">
+      <article class="step">
+        <div class="n"></div>
+        <h3 data-i18n="st1_h">Llamada de descubrimiento</h3>
+        <p data-i18n="st1_p">15–20 min para entender el problema de negocio, no solo el técnico. De ahí sale el scope y el precio fijo — nada de cotizar a ciegas.</p>
+      </article>
+      <article class="step">
+        <div class="n"></div>
+        <h3 data-i18n="st2_h">Propuesta con 3 opciones</h3>
+        <p data-i18n="st2_p">Te mando alcance, entregables, plazos y precio en una página. Elegís cuánto, no si. Depósito del 40–50% y arrancamos.</p>
+      </article>
+      <article class="step">
+        <div class="n"></div>
+        <h3 data-i18n="st3_h">Build en copia aislada</h3>
+        <p data-i18n="st3_p">Desarrollo sobre una working copy, con avances navegables que validás en tu navegador. Dos rondas de revisión incluidas.</p>
+      </article>
+      <article class="step">
+        <div class="n"></div>
+        <h3 data-i18n="st4_h">Entrega y soporte</h3>
+        <p data-i18n="st4_p">Deploy en tu instancia, código documentado y ventana de soporte. El saldo se paga contra entrega aprobada — si no te sirve, no lo pagás.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ POR QUÉ ESPECIALISTA ============ -->
+  <section id="especialista">
+    <div class="sec-head rv">
+      <span class="kicker" data-i18n="why_k">Por qué un especialista, no un genérico</span>
+      <h2 data-i18n="why_h">Especialista APEX, no commodity</h2>
+      <p data-i18n="why_p">El dev APEX de USD 10/h entrega algo que funciona pero parece una planilla cruda y que vas a tener que rehacer. La intersección APEX + front premium + dominio es exactamente lo que hago.</p>
+    </div>
+    <div class="why rv">
+      <article class="card">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 19 9 12l4 5 7-10"/><circle cx="20" cy="7" r="1.6"/></svg></div>
+        <h3 data-i18n="w1_h">Front premium real, no AI-slop</h3>
+        <p data-i18n="w1_p">CSS, SVG y charts a medida hechos a mano. Nada de templates ni interfaces "salidas de IA". En 2026 lo genérico lo hace una máquina; lo que se paga es el craft.</p>
+      </article>
+      <article class="card">
+        <div class="ico"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/></svg></div>
+        <h3 data-i18n="w2_h">PL/SQL sólido por debajo</h3>
+        <p data-i18n="w2_p">Packages, procedures, modelado relacional y queries optimizadas. La UI linda no sirve si abajo está mal armado — entrego las dos capas, no una.</p>
+      </article>
+      <article class="card">
+        <div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5"/></svg></div>
+        <h3 data-i18n="w3_h">APEX cuando ya tenés Oracle</h3>
+        <p data-i18n="w3_p">Si tus datos ya viven en Oracle Database, APEX te da una app web segura sobre ellos sin montar otro stack ni licencias extra de BI. Power BI muestra; APEX deja operar.</p>
+      </article>
+      <article class="card">
+        <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v9l6 3"/></svg></div>
+        <h3 data-i18n="w4_h">Zona horaria que suma</h3>
+        <p data-i18n="w4_p">GMT-3: jornada completa solapada con USA y media con Europa. Contractor, cobro en USD vía Deel, sin exclusividad — cero fricción para contratarme.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ CONTACTO ============ -->
+  <section id="contacto">
+    <div class="contact-box rv">
+      <h2 data-i18n="c_h">¿Tenés un proyecto sobre Oracle?</h2>
+      <p data-i18n="c_p">Contame el problema en dos líneas y te digo cómo lo encararía y cuánto costaría. Sin compromiso — la primera llamada es para entender, no para venderte.</p>
+      <div class="contact-links">
+        <a class="btn btn-pri" href="mailto:albardiazmartinezmanuel@gmail.com?subject=Proyecto%20Oracle%20APEX" data-i18n="c_mail">Escribime un email</a>
+        <a class="btn btn-sec" href="https://www.linkedin.com/in/manuel-albar-diaz" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn btn-sec" href="https://apuel1.github.io/" target="_blank" rel="noopener" data-i18n="c_port">Ver portfolio</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="yr">2026</span> Manuel Albar Diaz · <a href="mailto:albardiazmartinezmanuel@gmail.com">albardiazmartinezmanuel@gmail.com</a></span>
+    <span data-i18n="f_made">Hecho a mano con HTML, CSS y JS vanilla — sin frameworks.</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ===== i18n ===== */
+  var EN = {
+    nav_pkg:"Packages", nav_proof:"Live demos", nav_proc:"How I work", nav_why:"Why APEX", nav_port:"Portfolio", nav_contact:"Contact",
+    hero_k:"Services · Oracle APEX 23.2",
+    hero_h1:'<span class="grad">Oracle APEX</span> dashboards and systems people actually want to use',
+    hero_lead:"For companies already running Oracle Database that need real operational visibility or a custom system — not another raw spreadsheet. From the data model to the last pixel.",
+    hero_pitch:"Rock-solid PL/SQL underneath, a premium hand-crafted UI on top. Most APEX apps are functional but ugly. I deliver both.",
+    cta_mail:"Get in touch", cta_pkg:"See packages & pricing",
+    meta_loc:"Remote from Argentina (GMT-3) · paid in USD", meta_av:"~3 years in production · no exclusivity",
+
+    pkg_k:"What you can hire", pkg_h:"Three ways to start",
+    pkg_p:"Fixed price, clear scope — you know what you get and when. No blind hourly billing. Prices are “from”: the final number comes from a short call where I understand the problem.",
+    pk1_ix:"Spearhead", pk1_h:"Dashboard redesign",
+    pk1_for:"“I have an APEX dashboard that works but looks like 2009, nobody opens it, or it's slow.”",
+    from1:"from", cur1:"per project", tl1:"2–3 weeks", scope_l:"Includes",
+    pk1_s1:"Full redesign of 1 page/dashboard: custom CSS and SVG",
+    pk1_s2:"Live KPIs, charts and period comparison (A/B)",
+    pk1_s3:"Dynamic AJAX refresh, no page reload",
+    pk1_s4:"True responsive (clamp / auto-fit / minmax). No data-model changes",
+    deliv_l:"Deliverables:", pk1_d:"redesigned page in your app · 1 documented CSS/JS file · 2-min before/after video · responsive pass.",
+    pk_cta:"Ask about this",
+
+    badge:"Most chosen", pk2_ix:"Turn-key", pk2_h:"Full premium dashboard",
+    pk2_for:"“I don't have a dashboard. I need operational or executive visibility of my data, from scratch.”",
+    from2:"from", cur2:"per project", tl2:"3–5 weeks", scope_l2:"Includes",
+    pk2_s1:"New app/page from scratch: KPI and data-source discovery",
+    pk2_s2:"PL/SQL query model, custom charts, drill-down",
+    pk2_s3:"Dynamic filters, anti-AI-slop branding, deployment",
+    pk2_s4:"2 weeks of post-delivery support included",
+    deliv_l2:"Deliverables:", pk2_d:"dashboard running on your instance · documented queries/PL-SQL · 1-page usage guide · 2 weeks of support.",
+    pk_cta2:"I want this",
+
+    pk3_ix:"Custom-built", pk3_h:"APEX app or system",
+    pk3_for:"“I need a module or a whole system” · “I have legacy Forms to migrate” · “my process lives in Excel.”",
+    from3:"from", cur3:"per project", tl3:"6–10 weeks", scope_l3:"Includes",
+    pk3_s1:"Requirements analysis (use cases, BPMN/UML) and data model",
+    pk3_s2:"PL/SQL, pages, interactive reports and grids, REST",
+    pk3_s3:"Security, performance, premium UI and deployment",
+    pk3_s4:"Forms → APEX migration per module fits here",
+    deliv_l3:"Deliverables:", pk3_d:"system/module in production · technical documentation · 1h training · support and warranty period.",
+    pk_cta3:"Ask about this",
+    pkg_note:"Something smaller? I also do dashboard audits + quick wins, custom PDF reports and slow-query optimization as express jobs. Just ask.",
+
+    proof_k:"Don't take my word — see it", proof_h:"Live demos",
+    proof_p:"Two working dashboards, hand-built in HTML/CSS/JS and ready to port to Oracle APEX. Bilingual, responsive, open in your browser right now.",
+    d1_h:"Inventory dashboard", d1_p:"Stock control, inflow/outflow, turnover and alerts — the kind of control an operation checks every day.",
+    d1_b1:"Live KPIs with trend and period comparison", d1_b2:"Custom CSS/SVG charts, no heavy libraries", d1_b3:"Bilingual, responsive 360→1440, APEX-ready", d1_cta:"Open live demo →",
+    d2_h:"Sales dashboard", d2_p:"Sales funnel, goal attainment, sales leaderboard and revenue trend on a single screen.",
+    d2_b1:"Goal-attainment gauge and sortable ranking", d2_b2:"The brand accent marks the data that matters, it doesn't decorate", d2_b3:"Bilingual, responsive, hand-built, APEX-ready", d2_cta:"Open live demo →",
+
+    proc_k:"No surprises", proc_h:"How I work",
+    proc_p:"I work on an isolated copy and never touch your production app until you approve. I charge 40–50% to start and the rest on approved delivery.",
+    st1_h:"Discovery call", st1_p:"15–20 min to understand the business problem, not just the technical one. Scope and fixed price come from there — no blind quoting.",
+    st2_h:"Proposal with 3 options", st2_p:"You get scope, deliverables, timeline and price on one page. You choose how much, not whether. 40–50% deposit and we start.",
+    st3_h:"Build on an isolated copy", st3_p:"Development on a working copy, with navigable progress you validate in your browser. Two rounds of revisions included.",
+    st4_h:"Delivery and support", st4_p:"Deploy on your instance, documented code and a support window. The balance is paid on approved delivery — if it doesn't work for you, you don't pay it.",
+
+    why_k:"Why a specialist, not a generalist", why_h:"APEX specialist, not a commodity",
+    why_p:"The USD 10/h APEX dev ships something that works but looks like a raw spreadsheet — and that you'll have to redo. The APEX + premium front-end + domain intersection is exactly what I do.",
+    w1_h:"Real premium front-end, no AI-slop", w1_p:"Hand-crafted custom CSS, SVG and charts. No templates, no “AI-looking” interfaces. In 2026 a machine does the generic; what gets paid for is the craft.",
+    w2_h:"Rock-solid PL/SQL underneath", w2_p:"Packages, procedures, relational modeling and optimized queries. A pretty UI is useless if it's badly built underneath — I deliver both layers, not one.",
+    w3_h:"APEX when you already run Oracle", w3_p:"If your data already lives in Oracle Database, APEX gives you a secure web app on top of it with no extra stack or BI licenses. Power BI shows; APEX lets you operate.",
+    w4_h:"A time zone that helps", w4_p:"GMT-3: full overlap with the US workday and half with Europe. Contractor, paid in USD via Deel, no exclusivity — zero friction to hire me.",
+
+    c_h:"Building something on Oracle?", c_p:"Tell me the problem in two lines and I'll tell you how I'd tackle it and what it would cost. No commitment — the first call is to understand, not to sell you.",
+    c_mail:"Send me an email", c_port:"View portfolio",
+    f_made:"Handmade with vanilla HTML, CSS & JS — no frameworks."
+  };
+  var ES = {};
+
+  function setText(lang){
+    document.querySelectorAll("[data-i18n]").forEach(function(el){
+      var k = el.getAttribute("data-i18n");
+      if(!(k in ES)) ES[k] = el.textContent;
+      el.textContent = (lang==="en" ? (EN[k]||ES[k]) : ES[k]);
+    });
+    document.querySelectorAll("[data-i18n-html]").forEach(function(el){
+      var k = el.getAttribute("data-i18n-html");
+      if(!(k in ES)) ES[k] = el.innerHTML;
+      el.innerHTML = (lang==="en" ? (EN[k]||ES[k]) : ES[k]);
+    });
+    document.documentElement.lang = (lang==="en"?"en":"es");
+    document.getElementById("lang-es").classList.toggle("on", lang!=="en");
+    document.getElementById("lang-en").classList.toggle("on", lang==="en");
+    try{ localStorage.setItem("lang", lang); }catch(e){}
+  }
+
+  var main = document.getElementById("top");
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+  function applyLang(lang, animate){
+    if(animate && !reduce){
+      main.classList.add("swapping");
+      setTimeout(function(){ setText(lang); main.classList.remove("swapping"); }, 140);
+    } else { setText(lang); }
+  }
+  document.getElementById("lang-es").addEventListener("click", function(){ applyLang("es", true); });
+  document.getElementById("lang-en").addEventListener("click", function(){ applyLang("en", true); });
+  var saved=null; try{ saved=localStorage.getItem("lang"); }catch(e){}
+  setText(saved==="en" ? "en" : "es");
+
+  /* ===== Reveal una vez ===== */
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, { threshold:.12 });
+  document.querySelectorAll(".rv").forEach(function(el){ io.observe(el); });
+
+  /* ===== Scroll-spy nav ===== */
+  var links = {};
+  document.querySelectorAll(".nav-links a").forEach(function(a){
+    var href = a.getAttribute("href");
+    if(href && href.charAt(0) === "#") links[href.slice(1)] = a;
+  });
+  var spy = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        Object.keys(links).forEach(function(k){ links[k].classList.remove("active"); });
+        if(links[e.target.id]) links[e.target.id].classList.add("active");
+      }
+    });
+  }, { rootMargin:"-45% 0px -50% 0px" });
+  document.querySelectorAll("section[id]").forEach(function(s){ spy.observe(s); });
+
+  document.getElementById("yr").textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
